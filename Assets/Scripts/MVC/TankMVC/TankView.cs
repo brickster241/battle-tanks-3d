@@ -13,7 +13,10 @@ namespace TankMVC {
         }
 
         private void Update() {
-            tankController.MoveTank();
+            float horizontal = Input.GetAxisRaw("Horizontal1");
+            float vertical = Input.GetAxisRaw("Vertical1");
+            Debug.Log(horizontal + " " + vertical);
+            tankController.MoveTank(horizontal, vertical);
         }
     }
 }
