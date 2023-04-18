@@ -7,16 +7,23 @@ namespace TankMVC {
     public class TankView : MonoBehaviour
     {
         private TankController tankController;
+        [SerializeField] MeshRenderer[] COLOR_MATERIALS;
 
         public void SetTankController(TankController _tankController) {
             tankController = _tankController;
         }
 
+        public MeshRenderer[] GetMaterialMeshes() {
+            return COLOR_MATERIALS;
+        }
+
         private void Update() {
             float horizontal = Input.GetAxisRaw("Horizontal1");
             float vertical = Input.GetAxisRaw("Vertical1");
-            Debug.Log(horizontal + " " + vertical);
+            // Debug.Log(horizontal + " " + vertical);
             tankController.MoveTank(horizontal, vertical);
+            if (Input.GetKeyDown(KeyCode.Space))
+                tankController.FireBullet();
         }
     }
 }

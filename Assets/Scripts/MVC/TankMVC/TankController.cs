@@ -10,18 +10,29 @@ namespace TankMVC {
         private TankModel tankModel;
         private TankView tankView;
         private Transform tankTransform;
-        private Rigidbody tankRB;
-
+        
         public TankController(TankModel _tankModel, TankView _tankView) {
             tankModel = _tankModel;
             tankView = _tankView;
             tankTransform = tankView.transform;
-            tankRB = tankView.gameObject.GetComponent<Rigidbody>();
+        }
+
+        public void SetTankColor(Material TANK_COLOR) {
+            MeshRenderer[] colorMaterials = tankView.GetMaterialMeshes();
+            for (int i = 0; i < colorMaterials.Length; i++) {
+                Material[] materials = colorMaterials[i].materials;
+                materials[0] = TANK_COLOR;
+                colorMaterials[i].materials = materials;
+            }
         }
 
         public void MoveTank(float horizontal, float vertical) {
             SetTankVelocity(vertical);
             SetTankRotation(horizontal, vertical);
+        }
+
+        public void FireBullet() {
+            TankService.Instance.FireBullet(tankTransform.position, tankTransform.forward, tankModel.TANK_TYPE);
         }
 
         private void SetTankRotation(float horizontal, float vertical)
