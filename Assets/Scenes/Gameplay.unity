@@ -171,6 +171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tankPrefab: {fileID: 1090328133, guid: 2bfaabcfae3beec488cf74364473b452, type: 3}
+  scriptableConfigs: {fileID: 11400000, guid: 9b1ff975effbf7a4b8b8aaeb882659eb, type: 2}
 --- !u!114 &279433943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,6 +186,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BulletPrefab: {fileID: 6945431841804702221, guid: 18c78296e911a594a86c4ac146efb993,
     type: 3}
+  scriptableConfigs: {fileID: 11400000, guid: b36cc05ec605d314984b1c2c14c33737, type: 2}
   BulletExplosionPS: {fileID: 19807510, guid: 89e78efe92dfe5a42837b392cdb0bf9e, type: 3}
 --- !u!1001 &1158996493
 PrefabInstance:

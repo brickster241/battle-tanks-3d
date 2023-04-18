@@ -11,10 +11,10 @@ namespace BulletMVC {
         public float BULLET_DISTANCE {get ;}
         public ParticleSystem explosionPS {get; set; }
 
-        public BulletModel(float _BULLET_DAMAGE, float _BULLET_SPEED, float _BULLET_DISTANCE) {
-            BULLET_DAMAGE = _BULLET_DAMAGE;
-            BULLET_SPEED = _BULLET_SPEED;
-            BULLET_DISTANCE = _BULLET_DISTANCE;
+        public BulletModel(BulletScriptableObject bulletScriptableObject) {
+            BULLET_DAMAGE = bulletScriptableObject.BULLET_DAMAGE;
+            BULLET_SPEED = bulletScriptableObject.BULLET_SPEED;
+            BULLET_DISTANCE = bulletScriptableObject.BULLET_DISTANCE;
         }
 
         public void SetParticleSystem(ParticleSystem _explosionPS) {

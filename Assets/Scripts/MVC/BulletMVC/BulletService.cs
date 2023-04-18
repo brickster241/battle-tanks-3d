@@ -1,15 +1,19 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Generics;
+using TankMVC;
 
 namespace BulletMVC {
     public class BulletService : GenericMonoSingleton<BulletService>
     {
         [SerializeField] BulletView BulletPrefab;
+        public BulletScriptableObjectList scriptableConfigs;
         [SerializeField] ParticleSystem BulletExplosionPS;
-        public void SpawnBullet(Vector3 spawnPosition, Vector3 direction) {
-            BulletModel bulletModel = new BulletModel(20, 20, 20);
+        public void SpawnBullet(Vector3 spawnPosition, Vector3 direction, TankType tankType) {
+            BulletScriptableObject bulletConfig = GetBulletConfiguration(tankType);
+            BulletModel bulletModel = new BulletModel(bulletConfig);
             BulletView bulletView = GameObject.Instantiate<BulletView>(BulletPrefab);
             BulletController bulletController = new BulletController(bulletModel, bulletView);
             bulletModel.SetBulletController(bulletController);
@@ -23,6 +27,10 @@ namespace BulletMVC {
             Destroy(bullet.GetBulletView().gameObject);
             if (!isDistanceComplete)
                 Instantiate(BulletExplosionPS, finalPos, Quaternion.identity).Play();
+        }
+
+        public BulletScriptableObject GetBulletConfiguration(TankType tankType) {
+            return Array.Find(scriptableConfigs.bulletConfigs, config => config.TANK_TYPE == tankType);
         }
     }
 }
