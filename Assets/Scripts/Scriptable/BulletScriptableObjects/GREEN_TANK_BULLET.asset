@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: GREEN_TANK_BULLET
   m_EditorClassIdentifier: 
   BULLET_DAMAGE: 20
-  BULLET_SPEED: 10
+  BULLET_SPEED: 15
   BULLET_DISTANCE: 20
   TANK_TYPE: 1

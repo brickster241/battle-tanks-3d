@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: BLUE_TANK_BULLET
   m_EditorClassIdentifier: 
   BULLET_DAMAGE: 40
-  BULLET_SPEED: 5
+  BULLET_SPEED: 10
   BULLET_DISTANCE: 40
   TANK_TYPE: 0

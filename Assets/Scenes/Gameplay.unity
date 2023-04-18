@@ -108,15 +108,15 @@ NavMeshSettings:
   m_BuildSettings:
     serializedVersion: 2
     agentTypeID: 0
-    agentRadius: 0.5
-    agentHeight: 2
-    agentSlope: 45
+    agentRadius: 1.25
+    agentHeight: 1.5
+    agentSlope: 15
     agentClimb: 0.4
-    ledgeDropHeight: 0
+    ledgeDropHeight: 0.5
     maxJumpAcrossDistance: 0
     minRegionArea: 2
     manualCellSize: 0
-    cellSize: 0.16666667
+    cellSize: 0.41666666
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
@@ -124,7 +124,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 0609340f32606a84f9cf5922b56f8c61, type: 2}
 --- !u!1 &279433940
 GameObject:
   m_ObjectHideFlags: 0
@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 279433941}
   - component: {fileID: 279433942}
   - component: {fileID: 279433943}
+  - component: {fileID: 279433944}
   m_Layer: 0
   m_Name: Services
   m_TagString: Untagged
@@ -151,7 +152,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 279433940}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -20, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -188,6 +189,22 @@ MonoBehaviour:
     type: 3}
   scriptableConfigs: {fileID: 11400000, guid: b36cc05ec605d314984b1c2c14c33737, type: 2}
   BulletExplosionPS: {fileID: 19807510, guid: 89e78efe92dfe5a42837b392cdb0bf9e, type: 3}
+--- !u!114 &279433944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 279433940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de32d9c14bce7184182b890257146fc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPrefab: {fileID: 5406534846127600219, guid: 9d4a3be330753d34296cd36f84977f05,
+    type: 3}
+  scriptableConfigs: {fileID: 11400000, guid: b624acd26c8d3844aa1f342b3455ffb8, type: 2}
+  EnemyCount: 0
 --- !u!1001 &1158996493
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -710,6 +727,31 @@ PrefabInstance:
     - target: {fileID: 4366463266053016, guid: 0aac6aef14f064c3fb626270cff2683b, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 65532180134388108, guid: 0aac6aef14f064c3fb626270cff2683b,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 10.537613
+      objectReference: {fileID: 0}
+    - target: {fileID: 65532180134388108, guid: 0aac6aef14f064c3fb626270cff2683b,
+        type: 3}
+      propertyPath: m_Center.z
+      value: -49.49021
+      objectReference: {fileID: 0}
+    - target: {fileID: 65855577713412890, guid: 0aac6aef14f064c3fb626270cff2683b,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 11.56564
+      objectReference: {fileID: 0}
+    - target: {fileID: 65855577713412890, guid: 0aac6aef14f064c3fb626270cff2683b,
+        type: 3}
+      propertyPath: m_Center.x
+      value: 3.4625359
+      objectReference: {fileID: 0}
+    - target: {fileID: 65855577713412890, guid: 0aac6aef14f064c3fb626270cff2683b,
+        type: 3}
+      propertyPath: m_Center.z
+      value: -48.97753
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0aac6aef14f064c3fb626270cff2683b, type: 3}
