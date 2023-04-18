@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Generics;
 using TankMVC;
+using Scriptables;
 
 namespace BulletMVC {
     public class BulletService : GenericMonoSingleton<BulletService>
@@ -11,6 +12,7 @@ namespace BulletMVC {
         [SerializeField] BulletView BulletPrefab;
         public BulletScriptableObjectList scriptableConfigs;
         [SerializeField] ParticleSystem BulletExplosionPS;
+
         public void SpawnBullet(Vector3 spawnPosition, Vector3 direction, TankType tankType) {
             BulletScriptableObject bulletConfig = GetBulletConfiguration(tankType);
             BulletModel bulletModel = new BulletModel(bulletConfig);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Generics;
 using BulletMVC;
+using Scriptables;
 
 namespace TankMVC {
     public class TankService : GenericMonoSingleton<TankService>
@@ -15,7 +16,7 @@ namespace TankMVC {
         }
 
         public void CreatePlayerTank() {
-            // GENERATE RANDOM PLAYER
+            // GENERATE RANDOM PLAYER.
             int randomIndex = Random.Range(0, scriptableConfigs.tankConfigs.Length);
             TankModel tankModel = new TankModel(scriptableConfigs.tankConfigs[randomIndex]);
             TankView tankView = GameObject.Instantiate<TankView>(tankPrefab);
