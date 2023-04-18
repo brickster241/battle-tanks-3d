@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Generics;
 
-namespace CameraService {
-    public class CameraMovement : MonoBehaviour
+namespace CameraServices {
+    public class CameraService : GenericMonoSingleton<CameraService>
     {
         Transform TankPlayer;
 

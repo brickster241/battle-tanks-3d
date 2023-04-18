@@ -24,6 +24,10 @@ namespace TankMVC {
             SetTankRotation(horizontal, vertical);
         }
 
+        public void FireBullet() {
+            TankService.Instance.FireBullet(tankTransform.position, tankTransform.forward);
+        }
+
         private void SetTankRotation(float horizontal, float vertical)
         {
             if (horizontal != 0 && vertical != 0) {
