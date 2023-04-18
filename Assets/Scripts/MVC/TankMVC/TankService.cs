@@ -9,6 +9,7 @@ namespace TankMVC {
     public class TankService : GenericMonoSingleton<TankService>
     {
         [SerializeField] TankView tankPrefab;
+        public ParticleSystem tankExplosionPS;
         public TankScriptableObjectList scriptableConfigs;
         
         private void Start() {

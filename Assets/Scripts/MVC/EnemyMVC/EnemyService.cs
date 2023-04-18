@@ -10,12 +10,14 @@ public class EnemyService : GenericMonoSingleton<EnemyService>
 {
     [SerializeField] EnemyView enemyPrefab;
     public EnemyScriptableObjectList scriptableConfigs;
+    public ParticleSystem enemyExplosionPS;
     Transform playerTank;
     [SerializeField] int EnemyCount;
 
     private void Start() {
         playerTank = GameObject.FindGameObjectWithTag("Player").transform;
-        CreateEnemies();
+        for (int i = 0; i < EnemyCount; i++)
+            CreateEnemies();
     }
 
     void CreateEnemies() {

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GREEN_TANK
   m_EditorClassIdentifier: 
   TANK_SPEED: 10
-  ROTATION_SPEED: 60
+  ROTATION_SPEED: 90
   TANK_HEALTH: 150
   TANK_TYPE: 1
   TANK_MATERIAL_COLOR: {fileID: 2100000, guid: 5945ec7bcc375ff41834eaed8ed8fd72, type: 2}

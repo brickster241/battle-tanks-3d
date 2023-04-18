@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using BulletMVC;
 
 public class EnemyController
 {
@@ -47,5 +48,20 @@ public class EnemyController
 
     public EnemyView GetEnemyView() {
         return enemyView;
+    }
+
+    public void CollisionHandler(Collision other) {
+        if (other.gameObject.CompareTag("Bullet")) {
+            BulletController bulletController = other.gameObject.GetComponent<BulletView>().GetBulletController();
+            enemyModel.TANK_HEALTH = Mathf.Max(0, enemyModel.TANK_HEALTH - bulletController.GetBulletModel().BULLET_DAMAGE);
+            Debug.Log("ENEMY HEALTH : " + enemyModel.TANK_HEALTH);
+            if (enemyModel.TANK_HEALTH == 0)
+                DestroyEnemy();
+        }
+    }
+
+    public void DestroyEnemy() {
+        GameObject.Instantiate(EnemyService.Instance.enemyExplosionPS, enemyView.transform.position, Quaternion.identity).Play();
+        enemyView.gameObject.SetActive(false);
     }
 }

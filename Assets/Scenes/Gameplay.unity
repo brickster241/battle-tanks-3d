@@ -172,6 +172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tankPrefab: {fileID: 1090328133, guid: 2bfaabcfae3beec488cf74364473b452, type: 3}
+  tankExplosionPS: {fileID: 19874418, guid: ee49a9a8678ecf8468eb488e1ac8d42b, type: 3}
   scriptableConfigs: {fileID: 11400000, guid: 9b1ff975effbf7a4b8b8aaeb882659eb, type: 2}
 --- !u!114 &279433943
 MonoBehaviour:
@@ -204,7 +205,8 @@ MonoBehaviour:
   enemyPrefab: {fileID: 5406534846127600219, guid: 9d4a3be330753d34296cd36f84977f05,
     type: 3}
   scriptableConfigs: {fileID: 11400000, guid: b624acd26c8d3844aa1f342b3455ffb8, type: 2}
-  EnemyCount: 0
+  enemyExplosionPS: {fileID: 19874418, guid: ee49a9a8678ecf8468eb488e1ac8d42b, type: 3}
+  EnemyCount: 1
 --- !u!1001 &1158996493
 PrefabInstance:
   m_ObjectHideFlags: 0

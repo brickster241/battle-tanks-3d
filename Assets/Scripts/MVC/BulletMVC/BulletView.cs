@@ -11,6 +11,10 @@ namespace BulletMVC {
             bulletController = _bulletController;
         }
 
+        public BulletController GetBulletController() {
+            return bulletController;
+        }
+
         private void OnCollisionEnter(Collision other) {
             bulletController.CollisionHandler(other);
         }

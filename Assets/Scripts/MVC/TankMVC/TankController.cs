@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BulletMVC;
 
 namespace TankMVC {
     // LOGIC
@@ -55,6 +56,21 @@ namespace TankMVC {
 
         public TankView GetTankView() {
             return tankView;
+        }
+
+        public void CollisionHandler(Collision other) {
+            if (other.gameObject.CompareTag("Bullet")) {
+                BulletController bulletController = other.gameObject.GetComponent<BulletView>().GetBulletController();
+                tankModel.TANK_HEALTH = Mathf.Max(0, tankModel.TANK_HEALTH - bulletController.GetBulletModel().BULLET_DAMAGE);
+                if (tankModel.TANK_HEALTH == 0)
+                    DestroyPlayerTank();
+            }
+        }
+
+
+        public void DestroyPlayerTank() {
+            GameObject.Instantiate(TankService.Instance.tankExplosionPS, tankView.transform.position, Quaternion.identity).Play();
+            tankView.gameObject.SetActive(false);
         }
     }
 

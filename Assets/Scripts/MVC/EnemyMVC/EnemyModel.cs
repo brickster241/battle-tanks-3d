@@ -25,4 +25,8 @@ public class EnemyModel
     public void SetEnemyController(EnemyController _enemyController) {
         enemyController = _enemyController;
     }
+
+    public EnemyController GetEnemyController() {
+        return enemyController;
+    }
 }

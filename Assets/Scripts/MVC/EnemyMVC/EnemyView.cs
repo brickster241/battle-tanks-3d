@@ -18,4 +18,12 @@ public class EnemyView : MonoBehaviour
     void Update() {
         enemyController.Move();
     }
+
+    private void OnCollisionEnter(Collision other) {
+        enemyController.CollisionHandler(other);
+    }
+
+    public EnemyController GetEnemyController() {
+        return enemyController;
+    }
 }
