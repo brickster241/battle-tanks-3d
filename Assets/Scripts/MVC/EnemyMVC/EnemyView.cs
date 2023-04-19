@@ -23,7 +23,7 @@ namespace EnemyMVC {
         }
 
         void Update() {
-            enemyController.Move();
+            enemyController.SetMovement();
         }
 
         private void OnCollisionEnter(Collision other) {

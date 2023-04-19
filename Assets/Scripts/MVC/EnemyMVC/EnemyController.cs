@@ -13,7 +13,12 @@ namespace EnemyMVC {
         private NavMeshAgent navAgent;
         private Transform enemyTransform;
         private Transform playerTransform;
-        
+        // COROUTINE VARIABLES FOR PATROLLING, CHASING, ATTACKING
+        bool isPatrolling = false;
+        bool isPatrolCoroutineRunning = false;
+        bool isAttacking = false;
+        bool isAttackCoroutineRunning = false;
+        bool isChasing = false;
 
         public EnemyController(EnemyModel _enemyModel, EnemyView _enemyView) {
             enemyModel = _enemyModel;
@@ -24,7 +29,9 @@ namespace EnemyMVC {
             navAgent = enemyView.gameObject.GetComponent<NavMeshAgent>();
             enemyTransform = enemyView.GetEnemyTransform();
             SetNavAgentParameters();
-            enemyModel.AGENT_TARGET = playerTransform.position;
+            Vector3 enemyPos = enemyTransform.position;
+            enemyPos = EnemyService.Instance.GetRandomPoint(enemyPos, 60f);
+            enemyTransform.position = enemyPos;
         }
 
         private void SetNavAgentParameters() {
@@ -38,10 +45,29 @@ namespace EnemyMVC {
             playerTransform = _playerTransform;
         }
 
-        public void Move() {
-            Debug.Log(enemyModel.AGENT_TARGET);
-            enemyModel.AGENT_TARGET = playerTransform.position;
-            navAgent.SetDestination(enemyModel.AGENT_TARGET);
+        public void SetMovement() {
+            float distance = Vector3.Distance(enemyTransform.position, playerTransform.position);
+            if (distance >= enemyModel.CHASE_RANGE) {
+                isAttacking = false;
+                isPatrolling = true;
+                isChasing = false;
+            } else if (distance >= enemyModel.ATTACK_RANGE) {
+                navAgent.SetDestination(playerTransform.position);
+                isAttacking = false;
+                isChasing = true;
+                isPatrolling = false;
+            } else {
+                navAgent.SetDestination(playerTransform.position);
+                isAttacking = true;
+                isChasing = false;
+                isPatrolling = false;
+            }
+
+            // USE THESE BOOLEANS TO CALL COROUTINES.
+            if (isAttacking && !isAttackCoroutineRunning && !isPatrolCoroutineRunning)
+                EnemyService.Instance.StartCoroutine(AttackPlayer());
+            if (isPatrolling && !isPatrolCoroutineRunning && !isAttackCoroutineRunning)
+                EnemyService.Instance.StartCoroutine(PatrolEnvironment());
         }
 
         public void SetTankColor(Material TANK_COLOR) {
@@ -69,6 +95,28 @@ namespace EnemyMVC {
                 if (enemyModel.TANK_HEALTH == 0)
                     EnemyService.Instance.DestroyTank(this);
             }
+        }
+
+
+        IEnumerator AttackPlayer() {
+            isAttackCoroutineRunning = true;
+            navAgent.SetDestination(playerTransform.position);
+            while (playerTransform.gameObject.activeInHierarchy && enemyTransform.gameObject.activeInHierarchy && !isChasing && isAttacking && !isPatrolling) {
+                EnemyService.Instance.FireBullet(enemyTransform.position, enemyTransform.forward, enemyModel.TANK_TYPE);
+                yield return new WaitForSeconds(2f);
+            }
+            isAttackCoroutineRunning = false;
+        }
+
+        IEnumerator PatrolEnvironment() {
+            isPatrolCoroutineRunning = true;
+            while (playerTransform.gameObject.activeInHierarchy && enemyTransform.gameObject.activeInHierarchy && !isChasing && !isAttacking && isPatrolling) {
+                Vector3 NEXT_TARGET = EnemyService.Instance.GetRandomPoint(enemyTransform.position, 60f);
+                navAgent.SetDestination(NEXT_TARGET);
+                Debug.Log("NEXT TARGET : " + NEXT_TARGET);
+                yield return new WaitForSeconds(10f);
+            }
+            isPatrolCoroutineRunning = false;
         }
     }
 
