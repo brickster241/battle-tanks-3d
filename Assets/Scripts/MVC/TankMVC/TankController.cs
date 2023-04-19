@@ -10,12 +10,14 @@ namespace TankMVC {
     {
         private TankModel tankModel;
         private TankView tankView;
+
+        // REFERENCES FROM VIEW
         private Transform tankTransform;
         
         public TankController(TankModel _tankModel, TankView _tankView) {
             tankModel = _tankModel;
             tankView = _tankView;
-            tankTransform = tankView.transform;
+            tankTransform = tankView.GetTankTransform();
         }
 
         public void SetTankColor(Material TANK_COLOR) {
@@ -58,12 +60,12 @@ namespace TankMVC {
             return tankView;
         }
 
-        public void CollisionHandler(Collision other) {
+        public void HandleTankCollision(Collision other) {
             if (other.gameObject.CompareTag("Bullet")) {
-                BulletController bulletController = other.gameObject.GetComponent<BulletView>().GetBulletController();
-                tankModel.TANK_HEALTH = Mathf.Max(0, tankModel.TANK_HEALTH - bulletController.GetBulletModel().BULLET_DAMAGE);
+                int BULLET_DAMAGE = TankService.Instance.GetBulletDamage(other);
+                tankModel.TANK_HEALTH = Mathf.Max(0, tankModel.TANK_HEALTH - BULLET_DAMAGE);
                 if (tankModel.TANK_HEALTH == 0)
-                    DestroyPlayerTank();
+                    TankService.Instance.DestroyTank(this);
             }
         }
 

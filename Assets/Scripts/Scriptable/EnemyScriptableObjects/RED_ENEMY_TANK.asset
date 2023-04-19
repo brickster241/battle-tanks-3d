@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f398d39eaaab74240a5124eaa2622558, type: 3}
   m_Name: RED_ENEMY_TANK
   m_EditorClassIdentifier: 
-  TANK_SPEED: 6
-  ROTATION_SPEED: 120
-  TANK_HEALTH: 50
+  TANK_SPEED: 7.5
+  ROTATION_SPEED: 180
+  TANK_HEALTH: 75
   TANK_TYPE: 2
-  TANK_MATERIAL_COLOR: {fileID: 2100000, guid: 463052f3f7389124f9e7b34b0b931d0d, type: 2}
+  TANK_MATERIAL_COLOR: {fileID: 2100000, guid: 65b34bd0b696fd64c809daa8ff1aac63, type: 2}
   CHASE_RANGE: 0
   ATTACK_RANGE: 0

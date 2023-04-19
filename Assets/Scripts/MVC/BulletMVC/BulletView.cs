@@ -15,8 +15,12 @@ namespace BulletMVC {
             return bulletController;
         }
 
+        public Transform GetBulletTransform() {
+            return this.transform;
+        }
+
         private void OnCollisionEnter(Collision other) {
-            bulletController.CollisionHandler(other);
+            bulletController.HandleBulletCollision(other);
         }
     }
 }

@@ -18,6 +18,10 @@ namespace BulletMVC {
             BulletModel bulletModel = new BulletModel(bulletConfig);
             BulletView bulletView = GameObject.Instantiate<BulletView>(BulletPrefab);
             BulletController bulletController = new BulletController(bulletModel, bulletView);
+            SetBulletMVCAttributes(bulletController, bulletModel, bulletView, spawnPosition, direction);
+        }
+
+        private void SetBulletMVCAttributes(BulletController bulletController, BulletModel bulletModel, BulletView bulletView, Vector3 spawnPosition, Vector3 direction) {
             bulletModel.SetBulletController(bulletController);
             bulletModel.SetParticleSystem(BulletExplosionPS);
             bulletView.SetBulletController(bulletController);
@@ -26,13 +30,19 @@ namespace BulletMVC {
 
         public void DestroyBullet(BulletController bullet, bool isDistanceComplete) {
             Vector3 finalPos = bullet.GetBulletView().transform.position;
-            Destroy(bullet.GetBulletView().gameObject);
             if (!isDistanceComplete)
                 Instantiate(BulletExplosionPS, finalPos, Quaternion.identity).Play();
+            bullet.GetBulletView().gameObject.SetActive(false);
         }
 
-        public BulletScriptableObject GetBulletConfiguration(TankType tankType) {
+        private BulletScriptableObject GetBulletConfiguration(TankType tankType) {
             return Array.Find(scriptableConfigs.bulletConfigs, config => config.TANK_TYPE == tankType);
+        }
+
+        public int GetBulletDamage(Collision other) {
+            BulletController bulletController = other.gameObject.GetComponent<BulletView>().GetBulletController();
+            // Debug.Log("BULLET DAMAGE : " + bulletController.GetBulletModel().BULLET_DAMAGE);
+            return bulletController.GetBulletModel().BULLET_DAMAGE;            
         }
     }
 }

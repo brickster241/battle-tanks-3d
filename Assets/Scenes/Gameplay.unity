@@ -135,8 +135,8 @@ GameObject:
   m_Component:
   - component: {fileID: 279433941}
   - component: {fileID: 279433942}
-  - component: {fileID: 279433943}
   - component: {fileID: 279433944}
+  - component: {fileID: 279433943}
   m_Layer: 0
   m_Name: Services
   m_TagString: Untagged
@@ -152,7 +152,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 279433940}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -20, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

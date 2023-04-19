@@ -31,7 +31,11 @@ namespace TankMVC {
         }
 
         private void OnCollisionEnter(Collision other) {
-            tankController.CollisionHandler(other);
+            tankController.HandleTankCollision(other);
+        }
+
+        public Transform GetTankTransform() {
+            return this.transform;
         }
     }
 }

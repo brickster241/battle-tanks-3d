@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f398d39eaaab74240a5124eaa2622558, type: 3}
   m_Name: BLUE_ENEMY_TANK
   m_EditorClassIdentifier: 
-  TANK_SPEED: 3
-  ROTATION_SPEED: 30
-  TANK_HEALTH: 200
+  TANK_SPEED: 3.5
+  ROTATION_SPEED: 75
+  TANK_HEALTH: 175
   TANK_TYPE: 0
-  TANK_MATERIAL_COLOR: {fileID: 2100000, guid: ff21ff0ea9b18924bb1fdfbb0e58f5cb, type: 2}
+  TANK_MATERIAL_COLOR: {fileID: 2100000, guid: db9ceca9e86a2724aaa5c3df2991dba7, type: 2}
   CHASE_RANGE: 0
   ATTACK_RANGE: 0
