@@ -17,6 +17,7 @@ namespace EnemyMVC {
         public Vector3 AGENT_TARGET {get; set;}
         public float ATTACK_RANGE {get; }
         public float CHASE_RANGE {get; }
+        public EnemyMovementType MOVEMENT_TYPE {get; set;}
         
         public EnemyModel(EnemyScriptableObject enemyScriptableObject) {
             TANK_SPEED = enemyScriptableObject.TANK_SPEED;
@@ -27,6 +28,7 @@ namespace EnemyMVC {
             AGENT_TARGET = Vector3.zero;
             ATTACK_RANGE = enemyScriptableObject.ATTACK_RANGE;
             CHASE_RANGE = enemyScriptableObject.CHASE_RANGE;
+            MOVEMENT_TYPE = EnemyMovementType.PATROL;
         }
 
         public void SetEnemyController(EnemyController _enemyController) {

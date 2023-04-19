@@ -5,6 +5,12 @@ using UnityEngine.AI;
 using BulletMVC;
 
 namespace EnemyMVC {
+    public enum EnemyMovementType {
+        PATROL,
+        CHASE,
+        ATTACK
+    }
+
     public class EnemyController
     {
         private EnemyModel enemyModel;
@@ -13,13 +19,11 @@ namespace EnemyMVC {
         private NavMeshAgent navAgent;
         private Transform enemyTransform;
         private Transform playerTransform;
-        // COROUTINE VARIABLES FOR PATROLLING, CHASING, ATTACKING
-        bool isPatrolling = false;
-        bool isPatrolCoroutineRunning = false;
-        bool isAttacking = false;
-        bool isAttackCoroutineRunning = false;
-        bool isChasing = false;
 
+        // COROUTINE VARIABLES FOR PATROLLING & ATTACKING
+        bool isPatrolCoroutineRunning = false;
+        bool isAttackCoroutineRunning = false;
+        
         public EnemyController(EnemyModel _enemyModel, EnemyView _enemyView) {
             enemyModel = _enemyModel;
             enemyView = _enemyView;
@@ -48,25 +52,19 @@ namespace EnemyMVC {
         public void SetMovement() {
             float distance = Vector3.Distance(enemyTransform.position, playerTransform.position);
             if (distance >= enemyModel.CHASE_RANGE) {
-                isAttacking = false;
-                isPatrolling = true;
-                isChasing = false;
+                enemyModel.MOVEMENT_TYPE = EnemyMovementType.PATROL;
             } else if (distance >= enemyModel.ATTACK_RANGE) {
                 navAgent.SetDestination(playerTransform.position);
-                isAttacking = false;
-                isChasing = true;
-                isPatrolling = false;
+                enemyModel.MOVEMENT_TYPE = EnemyMovementType.CHASE;
             } else {
                 navAgent.SetDestination(playerTransform.position);
-                isAttacking = true;
-                isChasing = false;
-                isPatrolling = false;
+                enemyModel.MOVEMENT_TYPE = EnemyMovementType.ATTACK;
             }
 
             // USE THESE BOOLEANS TO CALL COROUTINES.
-            if (isAttacking && !isAttackCoroutineRunning && !isPatrolCoroutineRunning)
+            if (enemyModel.MOVEMENT_TYPE == EnemyMovementType.ATTACK && !isAttackCoroutineRunning)
                 EnemyService.Instance.StartCoroutine(AttackPlayer());
-            if (isPatrolling && !isPatrolCoroutineRunning && !isAttackCoroutineRunning)
+            if (enemyModel.MOVEMENT_TYPE == EnemyMovementType.PATROL && !isPatrolCoroutineRunning)
                 EnemyService.Instance.StartCoroutine(PatrolEnvironment());
         }
 
@@ -101,7 +99,7 @@ namespace EnemyMVC {
         IEnumerator AttackPlayer() {
             isAttackCoroutineRunning = true;
             navAgent.SetDestination(playerTransform.position);
-            while (playerTransform.gameObject.activeInHierarchy && enemyTransform.gameObject.activeInHierarchy && !isChasing && isAttacking && !isPatrolling) {
+            while (playerTransform.gameObject.activeInHierarchy && enemyTransform.gameObject.activeInHierarchy && enemyModel.MOVEMENT_TYPE == EnemyMovementType.ATTACK) {
                 EnemyService.Instance.FireBullet(enemyTransform.position, enemyTransform.forward, enemyModel.TANK_TYPE);
                 yield return new WaitForSeconds(2f);
             }
@@ -110,7 +108,7 @@ namespace EnemyMVC {
 
         IEnumerator PatrolEnvironment() {
             isPatrolCoroutineRunning = true;
-            while (playerTransform.gameObject.activeInHierarchy && enemyTransform.gameObject.activeInHierarchy && !isChasing && !isAttacking && isPatrolling) {
+            while (playerTransform.gameObject.activeInHierarchy && enemyTransform.gameObject.activeInHierarchy && enemyModel.MOVEMENT_TYPE == EnemyMovementType.PATROL) {
                 Vector3 NEXT_TARGET = EnemyService.Instance.GetRandomPoint(enemyTransform.position, 60f);
                 navAgent.SetDestination(NEXT_TARGET);
                 Debug.Log("NEXT TARGET : " + NEXT_TARGET);
