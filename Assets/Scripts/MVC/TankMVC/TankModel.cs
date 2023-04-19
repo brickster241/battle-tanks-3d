@@ -35,6 +35,10 @@ namespace TankMVC {
             tankController = _tankController;
         }
 
+        public TankController GetTankController() {
+            return tankController;
+        }
+
         
     }
 }

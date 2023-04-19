@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TANK_SPEED: 12.5
   ROTATION_SPEED: 120
-  TANK_HEALTH: 75
-  tankType: 2
+  TANK_HEALTH: 125
+  TANK_TYPE: 2
   TANK_MATERIAL_COLOR: {fileID: 2100000, guid: 463052f3f7389124f9e7b34b0b931d0d, type: 2}

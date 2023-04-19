@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f398d39eaaab74240a5124eaa2622558, type: 3}
+  m_Name: RED_ENEMY_TANK
+  m_EditorClassIdentifier: 
+  TANK_SPEED: 7.5
+  ROTATION_SPEED: 180
+  TANK_HEALTH: 75
+  TANK_TYPE: 2
+  TANK_MATERIAL_COLOR: {fileID: 2100000, guid: 65b34bd0b696fd64c809daa8ff1aac63, type: 2}
+  CHASE_RANGE: 0
+  ATTACK_RANGE: 0

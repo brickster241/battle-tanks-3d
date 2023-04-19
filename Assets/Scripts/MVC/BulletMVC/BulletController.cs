@@ -7,12 +7,14 @@ namespace BulletMVC {
     {
         private BulletModel bulletModel;
         private BulletView bulletView;
+
+        // REFERENCE FROM VIEW
         private Transform BulletTransform;
 
         public BulletController(BulletModel _bulletModel, BulletView _bulletView) {
             bulletModel = _bulletModel;
             bulletView = _bulletView;
-            BulletTransform = bulletView.transform;
+            BulletTransform = bulletView.GetBulletTransform();
         }
 
         public IEnumerator FireBullet(Vector3 spawnPosition, Vector3 forwardDirection, float distance) {
@@ -20,7 +22,7 @@ namespace BulletMVC {
             BulletTransform.forward = forwardDirection;
             Vector3 targetPosition = spawnPosition + forwardDirection.normalized * distance;
             targetPosition.y = 1f;
-            while (BulletTransform.position != targetPosition) {
+            while (BulletTransform != null && BulletTransform.position != targetPosition) {
                 BulletTransform.position = Vector3.MoveTowards(BulletTransform.position, targetPosition, bulletModel.BULLET_SPEED * Time.deltaTime);
                 yield return new WaitForEndOfFrame();
             }
@@ -36,7 +38,7 @@ namespace BulletMVC {
             return bulletView;
         }
 
-        public void CollisionHandler(Collision other) {
+        public void HandleBulletCollision(Collision other) {
             BulletService.Instance.DestroyBullet(this, false);
         }
         

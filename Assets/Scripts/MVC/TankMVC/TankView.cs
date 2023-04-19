@@ -13,6 +13,10 @@ namespace TankMVC {
             tankController = _tankController;
         }
 
+        public TankController GetTankController() {
+            return tankController;
+        }
+
         public MeshRenderer[] GetMaterialMeshes() {
             return COLOR_MATERIALS;
         }
@@ -24,6 +28,14 @@ namespace TankMVC {
             tankController.MoveTank(horizontal, vertical);
             if (Input.GetKeyDown(KeyCode.Space))
                 tankController.FireBullet();
+        }
+
+        private void OnCollisionEnter(Collision other) {
+            tankController.HandleTankCollision(other);
+        }
+
+        public Transform GetTankTransform() {
+            return this.transform;
         }
     }
 }

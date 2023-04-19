@@ -8,7 +8,7 @@ namespace Scriptables {
     [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/AddBulletScriptableObject")]
     public class BulletScriptableObject : ScriptableObject
     {
-        public float BULLET_DAMAGE;
+        public int BULLET_DAMAGE;
         public float BULLET_SPEED;
         public float BULLET_DISTANCE;     
         public TankType TANK_TYPE;   

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84c4793a40598814c9ec5f851f7bf090, type: 3}
   m_Name: GREEN_TANK_BULLET
   m_EditorClassIdentifier: 
-  BULLET_DAMAGE: 20
-  BULLET_SPEED: 10
+  BULLET_DAMAGE: 40
+  BULLET_SPEED: 15
   BULLET_DISTANCE: 20
   TANK_TYPE: 1
