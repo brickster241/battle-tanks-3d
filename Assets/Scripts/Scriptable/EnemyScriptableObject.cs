@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TankMVC;
+using EnemyMVC;
 
 namespace Scriptables {
     [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/AddEnemyScriptableObject")]
@@ -14,6 +15,7 @@ namespace Scriptables {
         public Material TANK_MATERIAL_COLOR;
         public float CHASE_RANGE;
         public float ATTACK_RANGE;
+        public EnemyMovementType MOVEMENT_TYPE;
             
     }
 }

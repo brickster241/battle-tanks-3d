@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using Generics;
 using TankMVC;
 using BulletMVC;
@@ -49,6 +50,21 @@ namespace EnemyMVC {
         public void DestroyTank(EnemyController enemyController) {
             GameObject.Instantiate(enemyExplosionPS, enemyController.GetEnemyView().transform.position, Quaternion.identity).Play();
             enemyController.GetEnemyView().gameObject.SetActive(false);
+        }
+
+        public Vector3 GetRandomPoint(Vector3 center, float range) {
+            Vector3 result = Vector3.zero;
+            while (result == Vector3.zero) {
+                Vector3 randomPoint = center + Random.insideUnitSphere * range;
+                NavMeshHit hit;
+                if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
+                {
+                    result = hit.position;
+                    Debug.Log("Random Point : " + result);
+                    return result;
+                }
+            }
+            return result;
         }
     }
 

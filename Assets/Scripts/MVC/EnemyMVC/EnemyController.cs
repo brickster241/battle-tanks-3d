@@ -5,6 +5,12 @@ using UnityEngine.AI;
 using BulletMVC;
 
 namespace EnemyMVC {
+    public enum EnemyMovementType {
+        PATROL,
+        CHASE,
+        ATTACK
+    }
+
     public class EnemyController
     {
         private EnemyModel enemyModel;
@@ -13,8 +19,11 @@ namespace EnemyMVC {
         private NavMeshAgent navAgent;
         private Transform enemyTransform;
         private Transform playerTransform;
-        
 
+        // COROUTINE VARIABLES FOR PATROLLING & ATTACKING
+        bool isPatrolCoroutineRunning = false;
+        bool isAttackCoroutineRunning = false;
+        
         public EnemyController(EnemyModel _enemyModel, EnemyView _enemyView) {
             enemyModel = _enemyModel;
             enemyView = _enemyView;
@@ -24,7 +33,9 @@ namespace EnemyMVC {
             navAgent = enemyView.gameObject.GetComponent<NavMeshAgent>();
             enemyTransform = enemyView.GetEnemyTransform();
             SetNavAgentParameters();
-            enemyModel.AGENT_TARGET = playerTransform.position;
+            Vector3 enemyPos = enemyTransform.position;
+            enemyPos = EnemyService.Instance.GetRandomPoint(enemyPos, 60f);
+            enemyTransform.position = enemyPos;
         }
 
         private void SetNavAgentParameters() {
@@ -38,10 +49,23 @@ namespace EnemyMVC {
             playerTransform = _playerTransform;
         }
 
-        public void Move() {
-            Debug.Log(enemyModel.AGENT_TARGET);
-            enemyModel.AGENT_TARGET = playerTransform.position;
-            navAgent.SetDestination(enemyModel.AGENT_TARGET);
+        public void SetMovement() {
+            float distance = Vector3.Distance(enemyTransform.position, playerTransform.position);
+            if (distance >= enemyModel.CHASE_RANGE) {
+                enemyModel.MOVEMENT_TYPE = EnemyMovementType.PATROL;
+            } else if (distance >= enemyModel.ATTACK_RANGE) {
+                navAgent.SetDestination(playerTransform.position);
+                enemyModel.MOVEMENT_TYPE = EnemyMovementType.CHASE;
+            } else {
+                navAgent.SetDestination(playerTransform.position);
+                enemyModel.MOVEMENT_TYPE = EnemyMovementType.ATTACK;
+            }
+
+            // USE THESE BOOLEANS TO CALL COROUTINES.
+            if (enemyModel.MOVEMENT_TYPE == EnemyMovementType.ATTACK && !isAttackCoroutineRunning)
+                EnemyService.Instance.StartCoroutine(AttackPlayer());
+            if (enemyModel.MOVEMENT_TYPE == EnemyMovementType.PATROL && !isPatrolCoroutineRunning)
+                EnemyService.Instance.StartCoroutine(PatrolEnvironment());
         }
 
         public void SetTankColor(Material TANK_COLOR) {
@@ -69,6 +93,28 @@ namespace EnemyMVC {
                 if (enemyModel.TANK_HEALTH == 0)
                     EnemyService.Instance.DestroyTank(this);
             }
+        }
+
+
+        IEnumerator AttackPlayer() {
+            isAttackCoroutineRunning = true;
+            navAgent.SetDestination(playerTransform.position);
+            while (playerTransform.gameObject.activeInHierarchy && enemyTransform.gameObject.activeInHierarchy && enemyModel.MOVEMENT_TYPE == EnemyMovementType.ATTACK) {
+                EnemyService.Instance.FireBullet(enemyTransform.position, enemyTransform.forward, enemyModel.TANK_TYPE);
+                yield return new WaitForSeconds(2f);
+            }
+            isAttackCoroutineRunning = false;
+        }
+
+        IEnumerator PatrolEnvironment() {
+            isPatrolCoroutineRunning = true;
+            while (playerTransform.gameObject.activeInHierarchy && enemyTransform.gameObject.activeInHierarchy && enemyModel.MOVEMENT_TYPE == EnemyMovementType.PATROL) {
+                Vector3 NEXT_TARGET = EnemyService.Instance.GetRandomPoint(enemyTransform.position, 60f);
+                navAgent.SetDestination(NEXT_TARGET);
+                Debug.Log("NEXT TARGET : " + NEXT_TARGET);
+                yield return new WaitForSeconds(10f);
+            }
+            isPatrolCoroutineRunning = false;
         }
     }
 
