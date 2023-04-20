@@ -27,15 +27,18 @@ namespace EnemyMVC {
             int randomIndex = Random.Range(0, scriptableConfigs.enemyConfigs.Length);
             EnemyModel enemyModel = new EnemyModel(scriptableConfigs.enemyConfigs[randomIndex]);
             EnemyView enemyView = GameObject.Instantiate<EnemyView>(enemyPrefab);
+            EnemyStateMachine enemySM = enemyView.gameObject.GetComponent<EnemyStateMachine>();
             EnemyController enemyController = new EnemyController(enemyModel, enemyView);
-            SetEnemyMVCAttributes(enemyController, enemyModel, enemyView);
+            SetEnemyMVCAttributes(enemyController, enemyModel, enemyView, enemySM);
         }
 
-        private void SetEnemyMVCAttributes(EnemyController enemyController, EnemyModel enemyModel, EnemyView enemyView) {
+        private void SetEnemyMVCAttributes(EnemyController enemyController, EnemyModel enemyModel, EnemyView enemyView, EnemyStateMachine enemySM) {
             enemyController.SetPlayerTransform(playerTank);
             enemyController.SetTankColor(enemyModel.TANK_COLOR);
             enemyModel.SetEnemyController(enemyController);
             enemyView.SetEnemyController(enemyController);
+            enemySM.SetEnemyController(enemyController);
+            enemyController.SetEnemySM(enemySM);
             enemyController.SetEnemyControllerAttributes();
         }
 
@@ -52,16 +55,14 @@ namespace EnemyMVC {
             enemyController.GetEnemyView().gameObject.SetActive(false);
         }
 
-        public Vector3 GetRandomPoint(Vector3 center, float range) {
+        public Vector3 GetRandomPoint(Vector3 center, float range, Vector3 playerPosition) {
             Vector3 result = Vector3.zero;
-            while (result == Vector3.zero) {
+            while (result == Vector3.zero || Vector3.Distance(result, playerPosition) < 35f) {
                 Vector3 randomPoint = center + Random.insideUnitSphere * range;
                 NavMeshHit hit;
                 if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
                 {
                     result = hit.position;
-                    Debug.Log("Random Point : " + result);
-                    return result;
                 }
             }
             return result;
