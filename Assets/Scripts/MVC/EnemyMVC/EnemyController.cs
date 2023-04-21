@@ -5,11 +5,6 @@ using UnityEngine.AI;
 using BulletMVC;
 
 namespace EnemyMVC {
-    public enum EnemyMovementType {
-        PATROL,
-        CHASE,
-        ATTACK
-    }
 
     public class EnemyController
     {
@@ -19,14 +14,15 @@ namespace EnemyMVC {
         private NavMeshAgent navAgent;
         private Transform enemyTransform;
         private Transform playerTransform;
+        private EnemyStateMachine enemySM;
 
-        // COROUTINE VARIABLES FOR PATROLLING & ATTACKING
-        bool isPatrolCoroutineRunning = false;
-        bool isAttackCoroutineRunning = false;
-        
         public EnemyController(EnemyModel _enemyModel, EnemyView _enemyView) {
             enemyModel = _enemyModel;
             enemyView = _enemyView;
+        }
+
+        public void SetEnemySM(EnemyStateMachine _enemySM) {
+            enemySM = _enemySM;
         }
 
         public void SetEnemyControllerAttributes() {
@@ -34,7 +30,7 @@ namespace EnemyMVC {
             enemyTransform = enemyView.GetEnemyTransform();
             SetNavAgentParameters();
             Vector3 enemyPos = enemyTransform.position;
-            enemyPos = EnemyService.Instance.GetRandomPoint(enemyPos, 60f);
+            enemyPos = EnemyService.Instance.GetRandomPoint(enemyPos, 60f, playerTransform.position);
             enemyTransform.position = enemyPos;
         }
 
@@ -49,25 +45,6 @@ namespace EnemyMVC {
             playerTransform = _playerTransform;
         }
 
-        public void SetMovement() {
-            float distance = Vector3.Distance(enemyTransform.position, playerTransform.position);
-            if (distance >= enemyModel.CHASE_RANGE) {
-                enemyModel.MOVEMENT_TYPE = EnemyMovementType.PATROL;
-            } else if (distance >= enemyModel.ATTACK_RANGE) {
-                navAgent.SetDestination(playerTransform.position);
-                enemyModel.MOVEMENT_TYPE = EnemyMovementType.CHASE;
-            } else {
-                navAgent.SetDestination(playerTransform.position);
-                enemyModel.MOVEMENT_TYPE = EnemyMovementType.ATTACK;
-            }
-
-            // USE THESE BOOLEANS TO CALL COROUTINES.
-            if (enemyModel.MOVEMENT_TYPE == EnemyMovementType.ATTACK && !isAttackCoroutineRunning)
-                EnemyService.Instance.StartCoroutine(AttackPlayer());
-            if (enemyModel.MOVEMENT_TYPE == EnemyMovementType.PATROL && !isPatrolCoroutineRunning)
-                EnemyService.Instance.StartCoroutine(PatrolEnvironment());
-        }
-
         public void SetTankColor(Material TANK_COLOR) {
             MeshRenderer[] colorMaterials = enemyView.GetMaterialMeshes();
             for (int i = 0; i < colorMaterials.Length; i++) {
@@ -75,6 +52,13 @@ namespace EnemyMVC {
                 materials[0] = TANK_COLOR;
                 colorMaterials[i].materials = materials;
             }
+        }
+
+        public (float, float, float) GetEnemySMUpdateParameters() {
+            float distance = Vector3.Distance(playerTransform.position, enemyTransform.position);
+            float CHASE_RANGE = enemyModel.CHASE_RANGE;
+            float ATTACK_RANGE = enemyModel.ATTACK_RANGE;
+            return (distance, CHASE_RANGE, ATTACK_RANGE);
         }
 
         public EnemyModel GetEnemyModel() {
@@ -95,26 +79,8 @@ namespace EnemyMVC {
             }
         }
 
-
-        IEnumerator AttackPlayer() {
-            isAttackCoroutineRunning = true;
-            navAgent.SetDestination(playerTransform.position);
-            while (playerTransform.gameObject.activeInHierarchy && enemyTransform.gameObject.activeInHierarchy && enemyModel.MOVEMENT_TYPE == EnemyMovementType.ATTACK) {
-                EnemyService.Instance.FireBullet(enemyTransform.position, enemyTransform.forward, enemyModel.TANK_TYPE);
-                yield return new WaitForSeconds(2f);
-            }
-            isAttackCoroutineRunning = false;
-        }
-
-        IEnumerator PatrolEnvironment() {
-            isPatrolCoroutineRunning = true;
-            while (playerTransform.gameObject.activeInHierarchy && enemyTransform.gameObject.activeInHierarchy && enemyModel.MOVEMENT_TYPE == EnemyMovementType.PATROL) {
-                Vector3 NEXT_TARGET = EnemyService.Instance.GetRandomPoint(enemyTransform.position, 60f);
-                navAgent.SetDestination(NEXT_TARGET);
-                Debug.Log("NEXT TARGET : " + NEXT_TARGET);
-                yield return new WaitForSeconds(10f);
-            }
-            isPatrolCoroutineRunning = false;
+        public Transform GetPlayerTransform() {
+            return playerTransform;
         }
     }
 

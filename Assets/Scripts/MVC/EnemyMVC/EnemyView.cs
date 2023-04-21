@@ -22,10 +22,6 @@ namespace EnemyMVC {
             return COLOR_MATERIALS;
         }
 
-        void Update() {
-            enemyController.SetMovement();
-        }
-
         private void OnCollisionEnter(Collision other) {
             enemyController.CollisionHandler(other);
         }

@@ -15,7 +15,6 @@ namespace Scriptables {
         public Material TANK_MATERIAL_COLOR;
         public float CHASE_RANGE;
         public float ATTACK_RANGE;
-        public EnemyMovementType MOVEMENT_TYPE;
             
     }
 }

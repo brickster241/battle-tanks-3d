@@ -68,12 +68,6 @@ namespace TankMVC {
                     TankService.Instance.DestroyTank(this);
             }
         }
-
-
-        public void DestroyPlayerTank() {
-            GameObject.Instantiate(TankService.Instance.tankExplosionPS, tankView.transform.position, Quaternion.identity).Play();
-            tankView.gameObject.SetActive(false);
-        }
     }
 
 }
