@@ -15,12 +15,18 @@ namespace EnemyMVC {
             Debug.Log("CHASE STATE ENTER");
         }
 
-        public override void OnStateUpdate()
+        public override void OnStateUpdate(float distance, float CHASE_RANGE, float ATTACK_RANGE)
         {
-            base.OnStateUpdate();
+            base.OnStateUpdate(distance, CHASE_RANGE, ATTACK_RANGE);
             Debug.Log("CHASE STATE UPDATE.");
             // CUSTOM IMPLEMENTATION
-            ChasePlayer();
+            if (distance > CHASE_RANGE) {
+                enemySM.SwitchState(EnemyState.PATROL);
+            } else if (distance > ATTACK_RANGE) {
+                ChasePlayer();
+            } else {
+                enemySM.SwitchState(EnemyState.ATTACK);
+            }
         }
 
         public override void OnStateExit()

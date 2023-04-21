@@ -16,10 +16,13 @@ namespace EnemyMVC {
             enemySM.StartCoroutine(AttackPlayer());
         }
 
-        public override void OnStateUpdate()
+        public override void OnStateUpdate(float distance, float CHASE_RANGE, float ATTACK_RANGE)
         {
-            base.OnStateUpdate();
+            base.OnStateUpdate(distance, CHASE_RANGE, ATTACK_RANGE);
             Debug.Log("ATTACK STATE UPDATE.");
+            if (distance > ATTACK_RANGE) {
+                enemySM.SwitchState(EnemyState.CHASE);
+            }
         }
 
         public override void OnStateExit()

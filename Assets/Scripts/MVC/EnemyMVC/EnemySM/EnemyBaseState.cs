@@ -12,7 +12,7 @@ namespace EnemyMVC {
         }
 
         public virtual void OnStateEnter() {}
-        public virtual void OnStateUpdate() {}
+        public virtual void OnStateUpdate(float distance, float CHASE_RANGE, float ATTACK_RANGE) {}
         public virtual void OnStateExit() {} 
     }
 

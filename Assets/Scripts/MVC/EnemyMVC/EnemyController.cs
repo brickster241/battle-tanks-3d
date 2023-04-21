@@ -5,11 +5,6 @@ using UnityEngine.AI;
 using BulletMVC;
 
 namespace EnemyMVC {
-    public enum EnemyMovementType {
-        PATROL,
-        CHASE,
-        ATTACK
-    }
 
     public class EnemyController
     {
@@ -50,11 +45,6 @@ namespace EnemyMVC {
             playerTransform = _playerTransform;
         }
 
-        public void SetMovement() {
-            float distance = Vector3.Distance(enemyTransform.position, playerTransform.position);
-            enemySM.SetEnemyState(distance, enemyModel.CHASE_RANGE, enemyModel.ATTACK_RANGE);
-        }
-
         public void SetTankColor(Material TANK_COLOR) {
             MeshRenderer[] colorMaterials = enemyView.GetMaterialMeshes();
             for (int i = 0; i < colorMaterials.Length; i++) {
@@ -62,6 +52,13 @@ namespace EnemyMVC {
                 materials[0] = TANK_COLOR;
                 colorMaterials[i].materials = materials;
             }
+        }
+
+        public (float, float, float) GetEnemySMUpdateParameters() {
+            float distance = Vector3.Distance(playerTransform.position, enemyTransform.position);
+            float CHASE_RANGE = enemyModel.CHASE_RANGE;
+            float ATTACK_RANGE = enemyModel.ATTACK_RANGE;
+            return (distance, CHASE_RANGE, ATTACK_RANGE);
         }
 
         public EnemyModel GetEnemyModel() {

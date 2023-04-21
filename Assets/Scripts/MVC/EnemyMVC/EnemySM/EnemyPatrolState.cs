@@ -16,10 +16,13 @@ namespace EnemyMVC {
             enemySM.StartCoroutine(PatrolEnvironment());
         }
 
-        public override void OnStateUpdate()
+        public override void OnStateUpdate(float distance, float CHASE_RANGE, float ATTACK_RANGE)
         {
-            base.OnStateUpdate();
+            base.OnStateUpdate(distance, CHASE_RANGE, ATTACK_RANGE);
             Debug.Log("PATROL STATE UPDATE.");
+            if (distance <= CHASE_RANGE) {
+                enemySM.SwitchState(EnemyState.CHASE);
+            }
         }
 
         public override void OnStateExit()

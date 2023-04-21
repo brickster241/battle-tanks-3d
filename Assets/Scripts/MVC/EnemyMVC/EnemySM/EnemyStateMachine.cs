@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace EnemyMVC {
     public enum EnemyState {
+        IDLE, // WHEN GAME IS PAUSED
         ATTACK,
         PATROL,
         CHASE,
@@ -22,6 +23,7 @@ namespace EnemyMVC {
             attackState = new EnemyAttackState(this);
             chaseState = new EnemyChaseState(this);
             patrolState = new EnemyPatrolState(this);
+            SwitchState(EnemyState.PATROL);
         }
 
         public void SetEnemyController(EnemyController _enemyController) {
@@ -32,7 +34,7 @@ namespace EnemyMVC {
             return enemyController;
         }
 
-        private void SetState(EnemyState enemyState) {
+        public void SwitchState(EnemyState enemyState) {
             if (GetEnemyStateEnum(currentEnemyState) == enemyState)
                 return;
             if (currentEnemyState != null)
@@ -53,16 +55,6 @@ namespace EnemyMVC {
             }
         }
 
-        public void SetEnemyState(float distance, float CHASE_RANGE, float ATTACK_RANGE) {
-            if (distance > CHASE_RANGE) {
-                SetState(EnemyState.PATROL);
-            } else if (distance > ATTACK_RANGE) {
-                SetState(EnemyState.CHASE);
-            } else {
-                SetState(EnemyState.ATTACK);
-            }
-        }   
-
         private EnemyBaseState GetEnemyBaseState(EnemyState enemyState) {
             if (enemyState == EnemyState.ATTACK) {
                 return attackState;
@@ -76,8 +68,9 @@ namespace EnemyMVC {
         }
 
         private void Update() {
+            (float distance, float CHASE_RANGE, float ATTACK_RANGE) = enemyController.GetEnemySMUpdateParameters();
             if (currentEnemyState != null)
-                currentEnemyState.OnStateUpdate();
+                currentEnemyState.OnStateUpdate(distance, CHASE_RANGE, ATTACK_RANGE);
         }
     }
 

@@ -19,6 +19,7 @@ namespace TankMVC {
         public int TANK_HEALTH {get; set;}
         public TankType TANK_TYPE {get; set; }
         public Material TANK_COLOR {get; set;}
+
         public TankModel(TankScriptableObject tankScriptableObject) {
             TANK_SPEED = tankScriptableObject.TANK_SPEED;
             ROTATION_SPEED = tankScriptableObject.ROTATION_SPEED;
