@@ -4,6 +4,7 @@ using UnityEngine;
 using Generics;
 using BulletMVC;
 using Scriptables;
+using Events;
 
 namespace TankMVC {
     public class TankService : GenericMonoSingleton<TankService>
@@ -32,6 +33,7 @@ namespace TankMVC {
         }
 
         public void FireBullet(Vector3 spawnPosition, Vector3 spawnDirection, TankType tankType) {
+            EventService.Instance.InvokePlayerFiredEvent();
             BulletService.Instance.SpawnBullet(spawnPosition, spawnDirection, tankType);
         }
 

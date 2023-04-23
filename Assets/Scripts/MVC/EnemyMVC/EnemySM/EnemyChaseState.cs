@@ -12,13 +12,13 @@ namespace EnemyMVC {
         public override void OnStateEnter()
         {
             base.OnStateEnter();
-            Debug.Log("CHASE STATE ENTER");
+            // Debug.Log("CHASE STATE ENTER");
         }
 
         public override void OnStateUpdate(float distance, float CHASE_RANGE, float ATTACK_RANGE)
         {
             base.OnStateUpdate(distance, CHASE_RANGE, ATTACK_RANGE);
-            Debug.Log("CHASE STATE UPDATE.");
+            // Debug.Log("CHASE STATE UPDATE.");
             // CUSTOM IMPLEMENTATION
             if (distance > CHASE_RANGE) {
                 enemySM.SwitchState(EnemyState.PATROL);
@@ -32,7 +32,7 @@ namespace EnemyMVC {
         public override void OnStateExit()
         {
             base.OnStateExit();
-            Debug.Log("CHASE STATE EXIT.");
+            // Debug.Log("CHASE STATE EXIT.");
         }
 
         private void ChasePlayer() {
