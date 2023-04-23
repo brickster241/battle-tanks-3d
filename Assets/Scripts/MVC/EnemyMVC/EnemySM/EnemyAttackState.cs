@@ -12,14 +12,14 @@ namespace EnemyMVC {
         public override void OnStateEnter()
         {
             base.OnStateEnter();
-            Debug.Log("ATTACK STATE ENTER.");
+            // Debug.Log("ATTACK STATE ENTER.");
             enemySM.StartCoroutine(AttackPlayer());
         }
 
         public override void OnStateUpdate(float distance, float CHASE_RANGE, float ATTACK_RANGE)
         {
             base.OnStateUpdate(distance, CHASE_RANGE, ATTACK_RANGE);
-            Debug.Log("ATTACK STATE UPDATE.");
+            // Debug.Log("ATTACK STATE UPDATE.");
             if (distance > ATTACK_RANGE) {
                 enemySM.SwitchState(EnemyState.CHASE);
             }
@@ -28,7 +28,7 @@ namespace EnemyMVC {
         public override void OnStateExit()
         {
             base.OnStateExit();
-            Debug.Log("ATTACK STATE EXIT.");
+            // Debug.Log("ATTACK STATE EXIT.");
         }
 
         IEnumerator AttackPlayer() {

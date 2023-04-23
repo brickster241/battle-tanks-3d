@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,7 @@ using Generics;
 using TankMVC;
 using BulletMVC;
 using Scriptables;
+using Events;
 
 namespace EnemyMVC {
     public class EnemyService : GenericMonoSingleton<EnemyService>
@@ -23,8 +25,8 @@ namespace EnemyMVC {
         }
 
         private void SpawnEnemy() {
-            Debug.Log(scriptableConfigs.enemyConfigs);
-            int randomIndex = Random.Range(0, scriptableConfigs.enemyConfigs.Length);
+            // Debug.Log(scriptableConfigs.enemyConfigs);
+            int randomIndex = UnityEngine.Random.Range(0, scriptableConfigs.enemyConfigs.Length);
             EnemyModel enemyModel = new EnemyModel(scriptableConfigs.enemyConfigs[randomIndex]);
             EnemyView enemyView = GameObject.Instantiate<EnemyView>(enemyPrefab);
             EnemyStateMachine enemySM = enemyView.gameObject.GetComponent<EnemyStateMachine>();
@@ -51,6 +53,7 @@ namespace EnemyMVC {
         }
 
         public void DestroyTank(EnemyController enemyController) {
+            EventService.Instance.InvokeEnemyDeathEvent();
             GameObject.Instantiate(enemyExplosionPS, enemyController.GetEnemyView().transform.position, Quaternion.identity).Play();
             enemyController.GetEnemyView().gameObject.SetActive(false);
         }
@@ -58,7 +61,7 @@ namespace EnemyMVC {
         public Vector3 GetRandomPoint(Vector3 center, float range, Vector3 playerPosition) {
             Vector3 result = Vector3.zero;
             while (result == Vector3.zero || Vector3.Distance(result, playerPosition) < 35f) {
-                Vector3 randomPoint = center + Random.insideUnitSphere * range;
+                Vector3 randomPoint = center + UnityEngine.Random.insideUnitSphere * range;
                 NavMeshHit hit;
                 if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
                 {
