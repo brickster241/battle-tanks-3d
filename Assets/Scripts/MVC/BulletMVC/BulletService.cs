@@ -10,18 +10,26 @@ namespace BulletMVC {
     public class BulletService : GenericMonoSingleton<BulletService>
     {
         [SerializeField] BulletView BulletPrefab;
+        GenericObjectPool<BulletView> bulletPool;
+        [SerializeField] Transform poolParentTransform;
         public BulletScriptableObjectList scriptableConfigs;
         [SerializeField] ParticleSystem BulletExplosionPS;
+
+        private void Start() {
+            bulletPool = new GenericObjectPool<BulletView>();
+            bulletPool.GeneratePool(BulletPrefab.gameObject, 30, poolParentTransform);
+        }
 
         public void SpawnBullet(Vector3 spawnPosition, Vector3 direction, TankType tankType) {
             BulletScriptableObject bulletConfig = GetBulletConfiguration(tankType);
             BulletModel bulletModel = new BulletModel(bulletConfig);
-            BulletView bulletView = GameObject.Instantiate<BulletView>(BulletPrefab);
+            BulletView bulletView = bulletPool.GetItem();
             BulletController bulletController = new BulletController(bulletModel, bulletView);
             SetBulletMVCAttributes(bulletController, bulletModel, bulletView, spawnPosition, direction);
         }
 
         private void SetBulletMVCAttributes(BulletController bulletController, BulletModel bulletModel, BulletView bulletView, Vector3 spawnPosition, Vector3 direction) {
+            bulletView.gameObject.SetActive(true);
             bulletModel.SetBulletController(bulletController);
             bulletModel.SetParticleSystem(BulletExplosionPS);
             bulletView.SetBulletController(bulletController);
@@ -33,6 +41,7 @@ namespace BulletMVC {
             if (!isDistanceComplete)
                 Instantiate(BulletExplosionPS, finalPos, Quaternion.identity).Play();
             bullet.GetBulletView().gameObject.SetActive(false);
+            bulletPool.ReturnItem(bullet.GetBulletView());
         }
 
         private BulletScriptableObject GetBulletConfiguration(TankType tankType) {
