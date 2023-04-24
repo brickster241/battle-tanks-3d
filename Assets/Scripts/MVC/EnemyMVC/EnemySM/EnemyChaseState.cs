@@ -23,7 +23,7 @@ namespace EnemyMVC {
             if (distance > CHASE_RANGE) {
                 enemySM.SwitchState(EnemyState.PATROL);
             } else if (distance > ATTACK_RANGE) {
-                ChasePlayer();
+                SetChaseDestination();
             } else {
                 enemySM.SwitchState(EnemyState.ATTACK);
             }
@@ -35,7 +35,7 @@ namespace EnemyMVC {
             // Debug.Log("CHASE STATE EXIT.");
         }
 
-        private void ChasePlayer() {
+        private void SetChaseDestination() {
             EnemyController _ec = enemySM.GetEnemyController();
             NavMeshAgent navAgent = _ec.GetEnemyView().GetNavMeshAgent();
             Transform playerTransform = _ec.GetPlayerTransform();
