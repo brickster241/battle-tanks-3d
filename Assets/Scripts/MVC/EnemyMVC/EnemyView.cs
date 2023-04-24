@@ -6,7 +6,7 @@ using UnityEngine.AI;
 namespace EnemyMVC {
     public class EnemyView : MonoBehaviour
     {
-        private EnemyController enemyController;
+        private EnemyController enemyController = null;
         private NavMeshAgent navMeshAgent;
         [SerializeField] MeshRenderer[] COLOR_MATERIALS;
         
@@ -14,8 +14,12 @@ namespace EnemyMVC {
             enemyController = _enemyController;
         }
 
-        private void Start() {
+        private void Awake() {
             navMeshAgent = GetComponent<NavMeshAgent>();    
+        }
+
+        private void Update() {
+            enemyController.UpdateEnemyState();
         }
 
         public MeshRenderer[] GetMaterialMeshes() {

@@ -5,7 +5,7 @@ using UnityEngine;
 namespace BulletMVC {
     public class BulletView : MonoBehaviour
     {
-        private BulletController bulletController;
+        private BulletController bulletController = null;
         
         public void SetBulletController(BulletController _bulletController) {
             bulletController = _bulletController;

@@ -8,7 +8,8 @@ namespace CameraServices {
     {
         Transform TankPlayer;
 
-        private void Start() {
+        protected override void Awake() {
+            base.Awake();
             TankPlayer = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         }
 

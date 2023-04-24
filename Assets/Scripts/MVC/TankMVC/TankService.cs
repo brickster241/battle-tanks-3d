@@ -5,6 +5,7 @@ using Generics;
 using BulletMVC;
 using Scriptables;
 using Events;
+using ParticleEffects;
 
 namespace TankMVC {
     public class TankService : GenericMonoSingleton<TankService>
@@ -13,7 +14,8 @@ namespace TankMVC {
         public ParticleSystem tankExplosionPS;
         public TankScriptableObjectList scriptableConfigs;
         
-        private void Start() {
+        protected override void Awake() {
+            base.Awake();
             CreatePlayerTank();
         }
 
@@ -42,8 +44,8 @@ namespace TankMVC {
         }
 
         public void DestroyTank(TankController tankController) {
-            GameObject.Instantiate(TankService.Instance.tankExplosionPS, tankController.GetTankView().transform.position, Quaternion.identity).Play();
             tankController.GetTankView().gameObject.SetActive(false);
+            EventService.Instance.InvokeParticleSystemEvent(ParticleEffectType.TANK_EXPLOSION, tankController.GetTankView().transform.position);
         }
     }
 }

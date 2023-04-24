@@ -5,6 +5,8 @@ using UnityEngine;
 using Generics;
 using TankMVC;
 using Scriptables;
+using Events;
+using ParticleEffects;
 
 namespace BulletMVC {
     public class BulletService : GenericMonoSingleton<BulletService>
@@ -13,35 +15,39 @@ namespace BulletMVC {
         GenericObjectPool<BulletView> bulletPool;
         [SerializeField] Transform poolParentTransform;
         public BulletScriptableObjectList scriptableConfigs;
-        [SerializeField] ParticleSystem BulletExplosionPS;
-
-        private void Start() {
+        
+        protected override void Awake() {
+            base.Awake();
             bulletPool = new GenericObjectPool<BulletView>();
             bulletPool.GeneratePool(BulletPrefab.gameObject, 30, poolParentTransform);
         }
 
         public void SpawnBullet(Vector3 spawnPosition, Vector3 direction, TankType tankType) {
             BulletScriptableObject bulletConfig = GetBulletConfiguration(tankType);
-            BulletModel bulletModel = new BulletModel(bulletConfig);
             BulletView bulletView = bulletPool.GetItem();
-            BulletController bulletController = new BulletController(bulletModel, bulletView);
-            SetBulletMVCAttributes(bulletController, bulletModel, bulletView, spawnPosition, direction);
+            if (bulletView.GetBulletController() == null) {
+                BulletModel bulletModel = new BulletModel(bulletConfig);
+                BulletController bulletController = new BulletController(bulletModel, bulletView);
+                SetBulletMVCAttributes(bulletController, bulletModel, bulletView, spawnPosition, direction);
+            } else {
+                bulletView.GetBulletController().GetBulletModel().SetModelConfig(bulletConfig);
+                SetBulletMVCAttributes(bulletView.GetBulletController(), bulletView.GetBulletController().GetBulletModel(), bulletView, spawnPosition, direction);
+            }
         }
 
         private void SetBulletMVCAttributes(BulletController bulletController, BulletModel bulletModel, BulletView bulletView, Vector3 spawnPosition, Vector3 direction) {
             bulletView.gameObject.SetActive(true);
             bulletModel.SetBulletController(bulletController);
-            bulletModel.SetParticleSystem(BulletExplosionPS);
             bulletView.SetBulletController(bulletController);
             StartCoroutine(bulletController.FireBullet(spawnPosition, direction, bulletModel.BULLET_DISTANCE));
         }
 
         public void DestroyBullet(BulletController bullet, bool isDistanceComplete) {
             Vector3 finalPos = bullet.GetBulletView().transform.position;
-            if (!isDistanceComplete)
-                Instantiate(BulletExplosionPS, finalPos, Quaternion.identity).Play();
             bullet.GetBulletView().gameObject.SetActive(false);
             bulletPool.ReturnItem(bullet.GetBulletView());
+            if (!isDistanceComplete)
+                EventService.Instance.InvokeParticleSystemEvent(ParticleEffectType.BULLET_EXPLOSION, finalPos);
         }
 
         private BulletScriptableObject GetBulletConfiguration(TankType tankType) {
@@ -50,7 +56,6 @@ namespace BulletMVC {
 
         public int GetBulletDamage(Collision other) {
             BulletController bulletController = other.gameObject.GetComponent<BulletView>().GetBulletController();
-            // Debug.Log("BULLET DAMAGE : " + bulletController.GetBulletModel().BULLET_DAMAGE);
             return bulletController.GetBulletModel().BULLET_DAMAGE;            
         }
     }

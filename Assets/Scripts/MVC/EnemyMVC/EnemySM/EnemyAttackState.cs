@@ -13,7 +13,7 @@ namespace EnemyMVC {
         {
             base.OnStateEnter();
             // Debug.Log("ATTACK STATE ENTER.");
-            enemySM.StartCoroutine(AttackPlayer());
+            enemySM.GetEnemyController().GetEnemyView().StartCoroutine(AttackPlayer());
         }
 
         public override void OnStateUpdate(float distance, float CHASE_RANGE, float ATTACK_RANGE)
