@@ -13,7 +13,7 @@ namespace EnemyMVC {
         {
             base.OnStateEnter();
             // Debug.Log("ATTACK STATE ENTER.");
-            enemySM.StartCoroutine(AttackPlayer());
+            enemySM.GetEnemyController().GetEnemyView().StartCoroutine(AttackPlayer());
         }
 
         public override void OnStateUpdate(float distance, float CHASE_RANGE, float ATTACK_RANGE)
@@ -23,6 +23,15 @@ namespace EnemyMVC {
             if (distance > ATTACK_RANGE) {
                 enemySM.SwitchState(EnemyState.CHASE);
             }
+            SetAttackDestination();
+            
+        }
+
+        void SetAttackDestination() {
+            EnemyController _ec = enemySM.GetEnemyController();
+            NavMeshAgent navAgent = _ec.GetEnemyView().GetNavMeshAgent();
+            Transform playerTransform = _ec.GetPlayerTransform();
+            navAgent.SetDestination(playerTransform.position);
         }
 
         public override void OnStateExit()
@@ -33,10 +42,8 @@ namespace EnemyMVC {
 
         IEnumerator AttackPlayer() {
             EnemyController _ec = enemySM.GetEnemyController();
-            NavMeshAgent navAgent = _ec.GetEnemyView().GetNavMeshAgent();
             Transform playerTransform = _ec.GetPlayerTransform();
             Transform enemyTransform = _ec.GetEnemyView().transform;
-            navAgent.SetDestination(playerTransform.position);
             while (playerTransform.gameObject.activeInHierarchy && enemyTransform.gameObject.activeInHierarchy && enemySM.GetEnemyStateEnum(enemySM.currentEnemyState) == EnemyState.ATTACK) {
                 EnemyService.Instance.FireBullet(enemyTransform.position, enemyTransform.forward, _ec.GetEnemyModel().TANK_TYPE);
                 yield return new WaitForSeconds(2f);

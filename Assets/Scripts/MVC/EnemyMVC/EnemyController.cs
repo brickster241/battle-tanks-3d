@@ -19,10 +19,15 @@ namespace EnemyMVC {
         public EnemyController(EnemyModel _enemyModel, EnemyView _enemyView) {
             enemyModel = _enemyModel;
             enemyView = _enemyView;
+            enemySM = new EnemyStateMachine();
         }
 
         public void SetEnemySM(EnemyStateMachine _enemySM) {
             enemySM = _enemySM;
+        }
+
+        public EnemyStateMachine GetEnemySM() {
+            return enemySM;
         }
 
         public void SetEnemyControllerAttributes() {
@@ -54,12 +59,13 @@ namespace EnemyMVC {
             }
         }
 
-        public (float, float, float) GetEnemySMUpdateParameters() {
+        public void UpdateEnemyState() {
             float distance = Vector3.Distance(playerTransform.position, enemyTransform.position);
             float CHASE_RANGE = enemyModel.CHASE_RANGE;
             float ATTACK_RANGE = enemyModel.ATTACK_RANGE;
-            return (distance, CHASE_RANGE, ATTACK_RANGE);
+            enemySM.ESMUpdate(distance, CHASE_RANGE, ATTACK_RANGE);
         }
+
 
         public EnemyModel GetEnemyModel() {
             return enemyModel;

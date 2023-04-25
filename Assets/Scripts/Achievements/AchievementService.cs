@@ -20,7 +20,6 @@ namespace Achievements {
             base.Awake();
             bulletFiredByPlayerCount = 0;
             EnemyKilledCount = 0;
-            eventService = new EventService();
         }
 
         public void CheckBulletFiredAchievement() {

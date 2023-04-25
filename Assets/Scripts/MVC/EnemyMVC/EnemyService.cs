@@ -8,33 +8,54 @@ using TankMVC;
 using BulletMVC;
 using Scriptables;
 using Events;
+using ParticleEffects;
 
 namespace EnemyMVC {
     public class EnemyService : GenericMonoSingleton<EnemyService>
     {
         [SerializeField] EnemyView enemyPrefab;
+        [SerializeField] Transform enemyPoolParentTransform;
+        GenericObjectPool<EnemyView> enemyPool;
+        
         public EnemyScriptableObjectList scriptableConfigs;
-        public ParticleSystem enemyExplosionPS;
         Transform playerTank;
-        [SerializeField] int EnemyCount;
-
-        private void Start() {
+        
+        protected override void Awake() {
+            base.Awake();
             playerTank = GameObject.FindGameObjectWithTag("Player").transform;
-            for (int i = 0; i < EnemyCount; i++)
+            enemyPool = new GenericObjectPool<EnemyView>();
+            enemyPool.GeneratePool(enemyPrefab.gameObject, 10, enemyPoolParentTransform);
+            // MAKE A COROUTINE WHICH WILL KEEP ON SPAWNING NEW ENEMIES
+            StartCoroutine(SpawnEnemiesAtInterval());
+        }
+
+        IEnumerator SpawnEnemiesAtInterval() {
+            for (int i = 0; i < 5; i++)
                 SpawnEnemy();
+            while (playerTank.gameObject.activeInHierarchy) {
+                yield return new WaitForSeconds(15f);
+                SpawnEnemy();
+            }
         }
 
         private void SpawnEnemy() {
             // Debug.Log(scriptableConfigs.enemyConfigs);
             int randomIndex = UnityEngine.Random.Range(0, scriptableConfigs.enemyConfigs.Length);
-            EnemyModel enemyModel = new EnemyModel(scriptableConfigs.enemyConfigs[randomIndex]);
-            EnemyView enemyView = GameObject.Instantiate<EnemyView>(enemyPrefab);
-            EnemyStateMachine enemySM = enemyView.gameObject.GetComponent<EnemyStateMachine>();
-            EnemyController enemyController = new EnemyController(enemyModel, enemyView);
-            SetEnemyMVCAttributes(enemyController, enemyModel, enemyView, enemySM);
+            EnemyView enemyView = enemyPool.GetItem();
+            if (enemyView.GetEnemyController() == null) {
+                EnemyModel enemyModel = new EnemyModel(scriptableConfigs.enemyConfigs[randomIndex]);
+                EnemyController enemyController = new EnemyController(enemyModel, enemyView);
+                EnemyStateMachine enemySM = enemyController.GetEnemySM();
+                SetEnemyMVCAttributes(enemyController, enemyModel, enemyView, enemySM);
+            } else {
+                enemyView.GetEnemyController().GetEnemyModel().SetModelConfig(scriptableConfigs.enemyConfigs[randomIndex]);
+                SetEnemyMVCAttributes(enemyView.GetEnemyController(), enemyView.GetEnemyController().GetEnemyModel(), enemyView, enemyView.GetEnemyController().GetEnemySM());
+            }
+            
         }
 
         private void SetEnemyMVCAttributes(EnemyController enemyController, EnemyModel enemyModel, EnemyView enemyView, EnemyStateMachine enemySM) {
+            enemyView.gameObject.SetActive(true);
             enemyController.SetPlayerTransform(playerTank);
             enemyController.SetTankColor(enemyModel.TANK_COLOR);
             enemyModel.SetEnemyController(enemyController);
@@ -53,9 +74,10 @@ namespace EnemyMVC {
         }
 
         public void DestroyTank(EnemyController enemyController) {
-            EventService.Instance.InvokeEnemyDeathEvent();
-            GameObject.Instantiate(enemyExplosionPS, enemyController.GetEnemyView().transform.position, Quaternion.identity).Play();
             enemyController.GetEnemyView().gameObject.SetActive(false);
+            enemyPool.ReturnItem(enemyController.GetEnemyView());
+            EventService.Instance.InvokeEnemyDeathEvent();
+            EventService.Instance.InvokeParticleSystemEvent(ParticleEffectType.TANK_EXPLOSION, enemyController.GetEnemyView().transform.position);
         }
 
         public Vector3 GetRandomPoint(Vector3 center, float range, Vector3 playerPosition) {

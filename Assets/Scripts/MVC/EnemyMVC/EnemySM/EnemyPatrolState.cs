@@ -13,7 +13,7 @@ namespace EnemyMVC {
         {
             base.OnStateEnter();
             // Debug.Log("PATROL STATE ENTER");
-            enemySM.StartCoroutine(PatrolEnvironment());
+            enemySM.GetEnemyController().GetEnemyView().StartCoroutine(PatrolEnvironment());
         }
 
         public override void OnStateUpdate(float distance, float CHASE_RANGE, float ATTACK_RANGE)
@@ -40,7 +40,7 @@ namespace EnemyMVC {
                 Vector3 NEXT_TARGET = EnemyService.Instance.GetRandomPoint(enemyTransform.position, 60f, playerTransform.position);
                 navAgent.SetDestination(NEXT_TARGET);
                 // Debug.Log("NEXT TARGET : " + NEXT_TARGET);
-                yield return new WaitForSeconds(10f);
+                yield return new WaitForSeconds(7.5f);
             }
         }
     }

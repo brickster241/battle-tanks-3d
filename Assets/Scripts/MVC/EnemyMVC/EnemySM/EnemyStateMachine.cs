@@ -11,7 +11,7 @@ namespace EnemyMVC {
         NONE
     }
 
-    public class EnemyStateMachine : MonoBehaviour
+    public class EnemyStateMachine
     {
         private EnemyController enemyController = null;
         private EnemyAttackState attackState;
@@ -19,15 +19,16 @@ namespace EnemyMVC {
         private EnemyPatrolState patrolState;
         public EnemyBaseState currentEnemyState = null;
 
-        private void Start() {
+        public EnemyStateMachine() {
             attackState = new EnemyAttackState(this);
             chaseState = new EnemyChaseState(this);
             patrolState = new EnemyPatrolState(this);
-            SwitchState(EnemyState.PATROL);
+            // SwitchState(EnemyState.PATROL);
         }
 
         public void SetEnemyController(EnemyController _enemyController) {
             enemyController = _enemyController;
+            SwitchState(EnemyState.PATROL);
         }
 
         public EnemyController GetEnemyController() {
@@ -67,8 +68,7 @@ namespace EnemyMVC {
             }
         }
 
-        private void Update() {
-            (float distance, float CHASE_RANGE, float ATTACK_RANGE) = enemyController.GetEnemySMUpdateParameters();
+        public void ESMUpdate(float distance, float CHASE_RANGE, float ATTACK_RANGE) {
             if (currentEnemyState != null)
                 currentEnemyState.OnStateUpdate(distance, CHASE_RANGE, ATTACK_RANGE);
         }

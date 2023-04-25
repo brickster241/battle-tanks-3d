@@ -7,19 +7,20 @@ namespace BulletMVC {
     public class BulletModel
     {
         private BulletController bulletController;
-        public int BULLET_DAMAGE {get ;}
-        public float BULLET_SPEED {get ;}
-        public float BULLET_DISTANCE {get ;}
-        public ParticleSystem explosionPS {get; set; }
-
+        public int BULLET_DAMAGE;
+        public float BULLET_SPEED;
+        public float BULLET_DISTANCE;
+        
         public BulletModel(BulletScriptableObject bulletScriptableObject) {
             BULLET_DAMAGE = bulletScriptableObject.BULLET_DAMAGE;
             BULLET_SPEED = bulletScriptableObject.BULLET_SPEED;
             BULLET_DISTANCE = bulletScriptableObject.BULLET_DISTANCE;
         }
 
-        public void SetParticleSystem(ParticleSystem _explosionPS) {
-            explosionPS = _explosionPS;
+        public void SetModelConfig(BulletScriptableObject bulletScriptableObject) {
+            BULLET_DAMAGE = bulletScriptableObject.BULLET_DAMAGE;
+            BULLET_SPEED = bulletScriptableObject.BULLET_SPEED;
+            BULLET_DISTANCE = bulletScriptableObject.BULLET_DISTANCE;
         }
 
         public BulletController GetBulletController() {
