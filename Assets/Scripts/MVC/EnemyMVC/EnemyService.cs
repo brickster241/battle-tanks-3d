@@ -18,7 +18,6 @@ namespace EnemyMVC {
         GenericObjectPool<EnemyView> enemyPool;
         
         public EnemyScriptableObjectList scriptableConfigs;
-        public ParticleSystem enemyExplosionPS;
         Transform playerTank;
         
         protected override void Awake() {

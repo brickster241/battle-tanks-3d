@@ -273,7 +273,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tankPrefab: {fileID: 1090328133, guid: 2bfaabcfae3beec488cf74364473b452, type: 3}
-  tankExplosionPS: {fileID: 19874418, guid: ee49a9a8678ecf8468eb488e1ac8d42b, type: 3}
   scriptableConfigs: {fileID: 11400000, guid: 9b1ff975effbf7a4b8b8aaeb882659eb, type: 2}
 --- !u!114 &279433943
 MonoBehaviour:
@@ -291,7 +290,6 @@ MonoBehaviour:
     type: 3}
   poolParentTransform: {fileID: 1663371628}
   scriptableConfigs: {fileID: 11400000, guid: b36cc05ec605d314984b1c2c14c33737, type: 2}
-  BulletExplosionPS: {fileID: 19807510, guid: 89e78efe92dfe5a42837b392cdb0bf9e, type: 3}
 --- !u!114 &279433944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,7 +306,6 @@ MonoBehaviour:
     type: 3}
   enemyPoolParentTransform: {fileID: 1319743517}
   scriptableConfigs: {fileID: 11400000, guid: b624acd26c8d3844aa1f342b3455ffb8, type: 2}
-  enemyExplosionPS: {fileID: 19874418, guid: ee49a9a8678ecf8468eb488e1ac8d42b, type: 3}
 --- !u!114 &279433945
 MonoBehaviour:
   m_ObjectHideFlags: 0

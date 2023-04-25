@@ -38,16 +38,16 @@ namespace ParticleEffects {
         public void DisplayParticleEffect(ParticleEffectType particleEffectType, Vector3 position) {
             if (particleEffectType == ParticleEffectType.BULLET_EXPLOSION) {
                 ParticleSystem bulletPE = bulletExplosionPEPool.GetItem();
+                bulletPE.gameObject.transform.position = position;
                 bulletPE.gameObject.SetActive(true);
                 bulletPE.Play();
-                bulletPE.gameObject.SetActive(false);
                 bulletExplosionPEPool.ReturnItem(bulletPE);
 
             } else if (particleEffectType == ParticleEffectType.TANK_EXPLOSION) {
                 ParticleSystem tankPE = tankExplosionPEPool.GetItem();
+                tankPE.gameObject.transform.position = position;
                 tankPE.gameObject.SetActive(true);
                 tankPE.Play();
-                tankPE.gameObject.SetActive(false);
                 tankExplosionPEPool.ReturnItem(tankPE);
             }
         }
