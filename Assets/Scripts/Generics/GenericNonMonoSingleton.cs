@@ -16,7 +16,7 @@ namespace Generics {
             }
             else
             {
-                Debug.LogError(instance + " is Tring to create another instance");
+                // Debug.LogError(instance + " is Tring to create another instance");
             }
         }
     }

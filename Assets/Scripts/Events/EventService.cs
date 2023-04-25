@@ -10,6 +10,7 @@ namespace Events {
     {
         public event Action onPlayerFiredBullet;
         public event Action onEnemyDeath;
+        public event Action onPlayerDeath;
         public event Action<ParticleEffectType, Vector3> onGameObjectDestroyed;
         public event Action<string> onAchievementUnlocked;
 
@@ -27,6 +28,10 @@ namespace Events {
 
         public void InvokeAchievementUnlockedEvent(string achievementText) {
             onAchievementUnlocked?.Invoke(achievementText);
+        }
+
+        public void InvokePlayerDeathEvent() {
+            onPlayerDeath?.Invoke();
         }
     }
     

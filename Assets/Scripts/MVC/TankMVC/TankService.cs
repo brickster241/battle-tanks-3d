@@ -45,6 +45,7 @@ namespace TankMVC {
         public void DestroyTank(TankController tankController) {
             tankController.GetTankView().gameObject.SetActive(false);
             EventService.Instance.InvokeParticleSystemEvent(ParticleEffectType.TANK_EXPLOSION, tankController.GetTankView().transform.position);
+            EventService.Instance.InvokePlayerDeathEvent();
         }
     }
 }
