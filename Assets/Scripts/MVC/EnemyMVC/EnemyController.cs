@@ -14,12 +14,14 @@ namespace EnemyMVC {
         private NavMeshAgent navAgent;
         private Transform enemyTransform;
         private Transform playerTransform;
+        private HealthBar healthBar;
         private EnemyStateMachine enemySM;
 
         public EnemyController(EnemyModel _enemyModel, EnemyView _enemyView) {
             enemyModel = _enemyModel;
             enemyView = _enemyView;
             enemySM = new EnemyStateMachine();
+            healthBar = enemyView.GetHealthBar();
         }
 
         public void SetEnemySM(EnemyStateMachine _enemySM) {
@@ -80,6 +82,7 @@ namespace EnemyMVC {
             if (other.gameObject.CompareTag("Bullet")) {
                 int BULLET_DAMAGE = EnemyService.Instance.GetBulletDamage(other);
                 enemyModel.TANK_HEALTH = Mathf.Max(0, enemyModel.TANK_HEALTH - BULLET_DAMAGE);
+                healthBar.UpdateFill(enemyModel.TANK_HEALTH, enemyModel.TANK_TOTAL_HEALTH);
                 if (enemyModel.TANK_HEALTH == 0)
                     EnemyService.Instance.DestroyTank(this);
             }

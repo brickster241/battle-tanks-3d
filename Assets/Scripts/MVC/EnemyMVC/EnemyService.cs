@@ -74,6 +74,7 @@ namespace EnemyMVC {
         }
 
         public void DestroyTank(EnemyController enemyController) {
+            enemyController.GetEnemyView().GetHealthBar().UpdateFill(enemyController.GetEnemyModel().TANK_TOTAL_HEALTH, enemyController.GetEnemyModel().TANK_TOTAL_HEALTH);
             enemyController.GetEnemyView().gameObject.SetActive(false);
             enemyPool.ReturnItem(enemyController.GetEnemyView());
             EventService.Instance.InvokeEnemyDeathEvent();

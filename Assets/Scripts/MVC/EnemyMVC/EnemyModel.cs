@@ -11,6 +11,7 @@ namespace EnemyMVC {
         private EnemyController enemyController;
         public float TANK_SPEED;
         public int TANK_HEALTH;
+        public int TANK_TOTAL_HEALTH;
         public float ROTATION_SPEED;
         public TankType TANK_TYPE;
         public Material TANK_COLOR;
@@ -22,6 +23,7 @@ namespace EnemyMVC {
             TANK_SPEED = enemyScriptableObject.TANK_SPEED;
             ROTATION_SPEED = enemyScriptableObject.ROTATION_SPEED;
             TANK_HEALTH = enemyScriptableObject.TANK_HEALTH;
+            TANK_TOTAL_HEALTH = enemyScriptableObject.TANK_HEALTH;
             TANK_TYPE = enemyScriptableObject.TANK_TYPE;
             TANK_COLOR = enemyScriptableObject.TANK_MATERIAL_COLOR;
             AGENT_TARGET = Vector3.zero;
