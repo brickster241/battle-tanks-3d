@@ -45,7 +45,7 @@ namespace EnemyMVC {
             Transform playerTransform = _ec.GetPlayerTransform();
             Transform enemyTransform = _ec.GetEnemyView().transform;
             while (playerTransform.gameObject.activeInHierarchy && enemyTransform.gameObject.activeInHierarchy && enemySM.GetEnemyStateEnum(enemySM.currentEnemyState) == EnemyState.ATTACK) {
-                EnemyService.Instance.FireBullet(enemyTransform.position, enemyTransform.forward, _ec.GetEnemyModel().TANK_TYPE);
+                EnemyService.Instance.FireBullet(enemyTransform, _ec.GetEnemyModel().TANK_TYPE);
                 yield return new WaitForSeconds(2f);
             }
         }

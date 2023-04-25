@@ -8,6 +8,7 @@ namespace EnemyMVC {
     {
         private EnemyController enemyController = null;
         private NavMeshAgent navMeshAgent;
+        [SerializeField] HealthBar healthBar;
         [SerializeField] MeshRenderer[] COLOR_MATERIALS;
         
         public void SetEnemyController(EnemyController _enemyController) {
@@ -20,6 +21,10 @@ namespace EnemyMVC {
 
         private void Update() {
             enemyController.UpdateEnemyState();
+        }
+
+        public HealthBar GetHealthBar() {
+            return healthBar;
         }
 
         public MeshRenderer[] GetMaterialMeshes() {

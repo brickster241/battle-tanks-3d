@@ -13,10 +13,12 @@ namespace TankMVC {
 
         // REFERENCES FROM VIEW
         private Transform tankTransform;
+        private HealthBar healthBar;
         
         public TankController(TankModel _tankModel, TankView _tankView) {
             tankModel = _tankModel;
             tankView = _tankView;
+            healthBar = tankView.GetHealthBar();
             tankTransform = tankView.GetTankTransform();
         }
 
@@ -35,7 +37,7 @@ namespace TankMVC {
         }
 
         public void FireBullet() {
-            TankService.Instance.FireBullet(tankTransform.position, tankTransform.forward, tankModel.TANK_TYPE);
+            TankService.Instance.FireBullet(tankTransform, tankModel.TANK_TYPE);
         }
 
         private void SetTankRotation(float horizontal, float vertical)
@@ -64,6 +66,7 @@ namespace TankMVC {
             if (other.gameObject.CompareTag("Bullet")) {
                 int BULLET_DAMAGE = TankService.Instance.GetBulletDamage(other);
                 tankModel.TANK_HEALTH = Mathf.Max(0, tankModel.TANK_HEALTH - BULLET_DAMAGE);
+                healthBar.UpdateFill(tankModel.TANK_HEALTH, tankModel.TANK_TOTAL_HEALTH);
                 if (tankModel.TANK_HEALTH == 0)
                     TankService.Instance.DestroyTank(this);
             }

@@ -16,7 +16,6 @@ MonoBehaviour:
   ROTATION_SPEED: 75
   TANK_HEALTH: 175
   TANK_TYPE: 0
-  TANK_MATERIAL_COLOR: {fileID: 2100000, guid: db9ceca9e86a2724aaa5c3df2991dba7, type: 2}
+  TANK_MATERIAL_COLOR: {fileID: 2100000, guid: ff21ff0ea9b18924bb1fdfbb0e58f5cb, type: 2}
   CHASE_RANGE: 40
   ATTACK_RANGE: 30
-  MOVEMENT_TYPE: 0

@@ -14,15 +14,17 @@ namespace TankMVC {
     public class TankModel
     {
         private TankController tankController;
-        public float TANK_SPEED {get; }
-        public float ROTATION_SPEED {get; }
-        public int TANK_HEALTH {get; set;}
-        public TankType TANK_TYPE {get; set; }
-        public Material TANK_COLOR {get; set;}
+        public float TANK_SPEED;
+        public float ROTATION_SPEED;
+        public int TANK_HEALTH;
+        public int TANK_TOTAL_HEALTH;
+        public TankType TANK_TYPE;
+        public Material TANK_COLOR;
 
         public TankModel(TankScriptableObject tankScriptableObject) {
             TANK_SPEED = tankScriptableObject.TANK_SPEED;
             ROTATION_SPEED = tankScriptableObject.ROTATION_SPEED;
+            TANK_TOTAL_HEALTH = tankScriptableObject.TANK_HEALTH;
             TANK_HEALTH = tankScriptableObject.TANK_HEALTH;
             TANK_TYPE = tankScriptableObject.TANK_TYPE;
             TANK_COLOR = tankScriptableObject.TANK_MATERIAL_COLOR;

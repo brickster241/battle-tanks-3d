@@ -65,8 +65,8 @@ namespace EnemyMVC {
             enemyController.SetEnemyControllerAttributes();
         }
 
-        public void FireBullet(Vector3 spawnPosition, Vector3 spawnDirection, TankType tankType) {
-            BulletService.Instance.SpawnBullet(spawnPosition, spawnDirection, tankType);
+        public void FireBullet(Transform tankTransform, TankType tankType) {
+            BulletService.Instance.SpawnBullet(tankTransform, tankType);
         }
 
         public int GetBulletDamage(Collision other) {
@@ -74,6 +74,7 @@ namespace EnemyMVC {
         }
 
         public void DestroyTank(EnemyController enemyController) {
+            enemyController.GetEnemyView().GetHealthBar().UpdateFill(enemyController.GetEnemyModel().TANK_TOTAL_HEALTH, enemyController.GetEnemyModel().TANK_TOTAL_HEALTH);
             enemyController.GetEnemyView().gameObject.SetActive(false);
             enemyPool.ReturnItem(enemyController.GetEnemyView());
             EventService.Instance.InvokeEnemyDeathEvent();

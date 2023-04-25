@@ -33,9 +33,9 @@ namespace TankMVC {
             tankView.SetTankController(tankController);
         }
 
-        public void FireBullet(Vector3 spawnPosition, Vector3 spawnDirection, TankType tankType) {
+        public void FireBullet(Transform tankTransform, TankType tankType) {
             EventService.Instance.InvokePlayerFiredEvent();
-            BulletService.Instance.SpawnBullet(spawnPosition, spawnDirection, tankType);
+            BulletService.Instance.SpawnBullet(tankTransform, tankType);
         }
 
         public int GetBulletDamage(Collision other) {
@@ -45,6 +45,7 @@ namespace TankMVC {
         public void DestroyTank(TankController tankController) {
             tankController.GetTankView().gameObject.SetActive(false);
             EventService.Instance.InvokeParticleSystemEvent(ParticleEffectType.TANK_EXPLOSION, tankController.GetTankView().transform.position);
+            EventService.Instance.InvokePlayerDeathEvent();
         }
     }
 }

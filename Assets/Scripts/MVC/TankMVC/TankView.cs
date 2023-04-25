@@ -7,10 +7,15 @@ namespace TankMVC {
     public class TankView : MonoBehaviour
     {
         private TankController tankController;
+        [SerializeField] HealthBar healthBar;
         [SerializeField] MeshRenderer[] COLOR_MATERIALS;
 
         public void SetTankController(TankController _tankController) {
             tankController = _tankController;
+        }
+
+        public HealthBar GetHealthBar() {
+            return healthBar;
         }
 
         public TankController GetTankController() {
