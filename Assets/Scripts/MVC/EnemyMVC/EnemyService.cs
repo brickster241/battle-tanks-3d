@@ -65,8 +65,8 @@ namespace EnemyMVC {
             enemyController.SetEnemyControllerAttributes();
         }
 
-        public void FireBullet(Vector3 spawnPosition, Vector3 spawnDirection, TankType tankType) {
-            BulletService.Instance.SpawnBullet(spawnPosition, spawnDirection, tankType);
+        public void FireBullet(Transform tankTransform, TankType tankType) {
+            BulletService.Instance.SpawnBullet(tankTransform, tankType);
         }
 
         public int GetBulletDamage(Collision other) {
