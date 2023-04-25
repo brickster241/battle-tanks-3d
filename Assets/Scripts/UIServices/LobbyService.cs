@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Generics;
+using GameAudio;
 
 namespace GameUI {
     public class LobbyService : GenericMonoSingleton<LobbyService>
@@ -32,10 +33,13 @@ namespace GameUI {
         }
 
         public void Play() {
+            AudioService.Instance.PlayAudio(GameAudio.AudioType.BUTTON_CLICK);
+            AudioService.Instance.PlayAudio(GameAudio.AudioType.LEVEL_BG);
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
 
         public void Quit() {
+            AudioService.Instance.PlayAudio(GameAudio.AudioType.BUTTON_CLICK);
             Application.Quit();
         }
     }

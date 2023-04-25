@@ -7,6 +7,7 @@ using TankMVC;
 using Scriptables;
 using Events;
 using ParticleEffects;
+using GameAudio;
 
 namespace BulletMVC {
     public class BulletService : GenericMonoSingleton<BulletService>

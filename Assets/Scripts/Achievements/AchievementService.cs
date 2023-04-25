@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Events;
 using Generics;
+using GameAudio;
 
 namespace Achievements {
     public class AchievementService : GenericMonoSingleton<AchievementService>
@@ -23,6 +24,7 @@ namespace Achievements {
         }
 
         public void CheckBulletFiredAchievement() {
+            AudioService.Instance.PlayAudio(GameAudio.AudioType.SHOT_FIRED);
             bulletFiredByPlayerCount += 1;
             if (bulletFiredByPlayerCount % 10 == 0) {
                 string achievementText = bulletFiredByPlayerCount + " BULLETS FIRED :)";
@@ -31,6 +33,7 @@ namespace Achievements {
         }
 
         public void CheckEnemyDeathAchievement() {
+            AudioService.Instance.PlayAudio(GameAudio.AudioType.TANK_EXPLOSION);
             EnemyKilledCount += 1;
             if (EnemyKilledCount % 5 == 0) {
                 string achievementText = EnemyKilledCount + " ENEMIES KILLED :)";

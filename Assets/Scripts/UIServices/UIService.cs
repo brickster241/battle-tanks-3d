@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using Generics;
 using Events;
+using GameAudio;
 
 namespace GameUI {
     public class UIService : GenericMonoSingleton<UIService>
@@ -29,6 +30,7 @@ namespace GameUI {
             while (AchievementList.Count != 0) {
                 achievementText.text = AchievementList.Peek();
                 achievementUI.SetActive(true);
+                AudioService.Instance.PlayAudio(GameAudio.AudioType.ACHIEVEMENT_UNLOCKED);
                 yield return new WaitForSeconds(2.5f);
                 achievementUI.SetActive(false);
                 yield return new WaitForSeconds(1f);
@@ -38,14 +40,17 @@ namespace GameUI {
         }
 
         public void RestartLevel() {
+            AudioService.Instance.PlayAudio(GameAudio.AudioType.BUTTON_CLICK);
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
         public void MainMenu() {
+            AudioService.Instance.PlayAudio(GameAudio.AudioType.BUTTON_CLICK);
             SceneManager.LoadScene(0);
         }
 
         public void DisplayGameOverUI() {
+            AudioService.Instance.StopAudio(GameAudio.AudioType.LEVEL_BG);
             gameOverUI.SetActive(true);
         }
 
