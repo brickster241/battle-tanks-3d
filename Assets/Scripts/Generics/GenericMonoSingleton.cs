@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Generics {
+
+    // Generic Class for MonoBehaviour Singleton - Will be used by Services.
     public class GenericMonoSingleton<T> : MonoBehaviour where T : GenericMonoSingleton<T>
     {
         protected static T instance;

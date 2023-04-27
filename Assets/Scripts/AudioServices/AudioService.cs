@@ -6,6 +6,9 @@ using Generics;
 
 namespace GameAudio {
 
+    /*
+        Enum to define different AudioTypes used in the Game. Will be used to Play & Stop Audio.
+    */
     public enum AudioType {
         LEVEL_BG,
         SHOT_FIRED,
@@ -14,6 +17,10 @@ namespace GameAudio {
         ACHIEVEMENT_UNLOCKED
     }
 
+
+    /*
+        Serializable Class GameAudio to fill gameAudios parameter in AudioService.
+    */
     [System.Serializable]
     public class GameAudio {
         public AudioType audioType;
@@ -25,6 +32,9 @@ namespace GameAudio {
         public float volume;
     }
 
+    /*
+        MonoSingleton AudioService class. Handles all the Audio in the project.
+    */
     public class AudioService : GenericMonoSingleton<AudioService>
     {
         [SerializeField] GameAudio[] gameAudios;
@@ -45,11 +55,21 @@ namespace GameAudio {
 
         }
 
+        /*
+            Starts Playing the Audio of the specific type. Searches in the gameAudios array.
+            Parameters : 
+            - audioType : AudioType to be played. 
+        */
         public void PlayAudio(AudioType audioType) {
             GameAudio gameAudio = Array.Find(gameAudios, item => item.audioType == audioType);
             gameAudio.audioSrc.Play();
         }
 
+        /*
+            Stops Playing the Audio of the specific type. Searches in the gameAudios array.
+            Parameters : 
+            - audioType : AudioType to be played. 
+        */
         public void StopAudio(AudioType audioType) {
             GameAudio gameAudio = Array.Find(gameAudios, item => item.audioType == audioType);
             gameAudio.audioSrc.Stop();
