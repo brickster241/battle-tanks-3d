@@ -5,6 +5,9 @@ using TankMVC;
 using EnemyMVC;
 
 namespace Scriptables {
+    /*
+        Scriptable Object class for Enemy Tank. Used to create scriptable objects for different types of Enemy Tanks.
+    */
     [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/AddEnemyScriptableObject")]
     public class EnemyScriptableObject : ScriptableObject
     {

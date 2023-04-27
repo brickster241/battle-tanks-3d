@@ -4,6 +4,9 @@ using UnityEngine;
 using TankMVC;
 
 namespace Scriptables {
+    /*
+        Scriptable Object class for Player Tank. Used to create scriptable objects for different types of Player Tank.
+    */
     [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/AddTankScriptableObject")]
     public class TankScriptableObject : ScriptableObject
     {

@@ -3,16 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace BulletMVC {
+
+    /*
+        Controller class for Bullet. Used to handle all logic & functionality of the Bullet Gameobject.
+    */
     public class BulletController
     {
         private BulletModel bulletModel;
         private BulletView bulletView;
 
+        /*
+            Constructor to set BulletModel & BulletView attributes.
+            Parameters :
+            - _bulletModel : BulletModel object.
+            - _bulletView  : BulletView object.
+        */
         public BulletController(BulletModel _bulletModel, BulletView _bulletView) {
             bulletModel = _bulletModel;
             bulletView = _bulletView;
         }
 
+        /*
+            Fires the Bullet in a certain direction based on tank's Transform and bullet distance.
+            Destroys the bullet when distance is complete.
+            Parameters : 
+            - tankTransform : Transform component of tank who's firing the bullet.
+            - distance      : Bullet Distance as defined in the Scriptable Object.
+        */
         public IEnumerator FireBullet(Transform tankTransform, float distance) {
             Vector3 spawnPosition = tankTransform.position;
             spawnPosition.y = 1f;
@@ -33,15 +50,26 @@ namespace BulletMVC {
                 BulletService.Instance.DestroyBullet(this, true);
         }
 
+        /*
+            Returns reference to the BulletModel for the bullet.
+        */
         public BulletModel GetBulletModel() {
             return bulletModel;
         }
-
+        
+        /*
+            Returns reference to the BulletView for the bullet.
+        */
         public BulletView GetBulletView() {
             return bulletView;
         }
 
-        public void HandleBulletCollision(Collision other) {
+        /*
+            Handles Collision of Bullet with any gameObject.
+            Parameters : 
+            - collidedObject : Object with which bullet collided.
+        */
+        public void HandleBulletCollision(Collision collidedObject) {
             BulletService.Instance.DestroyBullet(this, false);
         }
         

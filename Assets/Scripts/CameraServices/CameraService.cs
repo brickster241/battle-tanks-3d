@@ -4,6 +4,9 @@ using UnityEngine;
 using Generics;
 
 namespace CameraServices {
+    /*
+        MonoSingleton CameraService class. Handles the movement of the Camera, which follows the player.
+    */
     public class CameraService : GenericMonoSingleton<CameraService>
     {
         Transform TankPlayer;
@@ -13,8 +16,7 @@ namespace CameraServices {
             TankPlayer = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         }
 
-        // Update is called once per frame
-        void LateUpdate()
+        private void LateUpdate()
         {   
             Vector3 cameraAngles = transform.eulerAngles;
             cameraAngles.y = TankPlayer.eulerAngles.y;
@@ -22,7 +24,10 @@ namespace CameraServices {
             StartCoroutine(UpdateCameraMovement());
         }
 
-        IEnumerator UpdateCameraMovement() {
+        /*
+            Updates Camera Movement based on player's position.
+        */
+        private IEnumerator UpdateCameraMovement() {
             while (transform.position != TankPlayer.position) {
                 transform.position = Vector3.MoveTowards(transform.position, TankPlayer.position, Time.deltaTime);
                 yield return new WaitForEndOfFrame();

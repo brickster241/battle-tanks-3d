@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Generics {
+    // Generic Class for Non MonoBehaviour Singleton class. 
     public class GenericNonMonoSingleton<T> where T : GenericNonMonoSingleton<T>
     {
         private static T instance;
