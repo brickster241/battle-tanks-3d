@@ -4,13 +4,18 @@ using UnityEngine;
 using Scriptables;
 
 namespace TankMVC {
+    /*
+        Enum for different types of Tank. Used to fetch ScriptableObject properties.
+    */
     public enum TankType {
         NONE = -1,
         SLOW_SPEED = 0,
         MED_SPEED = 1,
         FAST_SPEED = 2
     }
-
+    /*
+        Model class for Player Tank. Keeps track of all the properties associated with the tank.
+    */
     public class TankModel
     {
         private TankController tankController;
@@ -21,6 +26,11 @@ namespace TankMVC {
         public TankType TANK_TYPE;
         public Material TANK_COLOR;
 
+        /*
+            Constructor to set attributes based on Scriptable Object.
+            Parameters : 
+            - tankScriptableObject : ScriptableObject from which configuration needs to be set.
+        */        
         public TankModel(TankScriptableObject tankScriptableObject) {
             TANK_SPEED = tankScriptableObject.TANK_SPEED;
             ROTATION_SPEED = tankScriptableObject.ROTATION_SPEED;
@@ -30,18 +40,14 @@ namespace TankMVC {
             TANK_COLOR = tankScriptableObject.TANK_MATERIAL_COLOR;
         }
 
-        public void SetTankHealth(int health) {
-            TANK_HEALTH = health;
-        }
-
+        /*
+            Sets the reference for tankController.
+            Parameters : 
+            - _tankController : TankController object reference.
+        */
         public void SetTankController(TankController _tankController) {
             tankController = _tankController;
         }
-
-        public TankController GetTankController() {
-            return tankController;
-        }
-
         
     }
 }

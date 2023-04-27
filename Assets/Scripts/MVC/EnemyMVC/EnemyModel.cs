@@ -6,6 +6,10 @@ using TankMVC;
 using Scriptables;
 
 namespace EnemyMVC {
+
+    /*
+        Model class for Enemy Tank. Keeps track of all the properties associated with the enemy tank.
+    */
     public class EnemyModel
     {
         private EnemyController enemyController;
@@ -19,6 +23,11 @@ namespace EnemyMVC {
         public float ATTACK_RANGE;
         public float CHASE_RANGE;
     
+        /*
+            Constructor to set attributes based on Scriptable Object.
+            Parameters : 
+            - enemyScriptableObject : ScriptableObject from which configuration needs to be set.
+        */
         public EnemyModel(EnemyScriptableObject enemyScriptableObject) {
             TANK_SPEED = enemyScriptableObject.TANK_SPEED;
             ROTATION_SPEED = enemyScriptableObject.ROTATION_SPEED;
@@ -31,6 +40,11 @@ namespace EnemyMVC {
             CHASE_RANGE = enemyScriptableObject.CHASE_RANGE;
         }
 
+        /*
+            Method to set Configuration based on Scriptable Object. Used while reusing in Pool.
+            Parameters : 
+            - enemyScriptableObject : ScriptableObject from which configuration needs to be set.
+        */
         public void SetModelConfig(EnemyScriptableObject enemyScriptableObject) {
             TANK_SPEED = enemyScriptableObject.TANK_SPEED;
             ROTATION_SPEED = enemyScriptableObject.ROTATION_SPEED;
@@ -42,10 +56,18 @@ namespace EnemyMVC {
             CHASE_RANGE = enemyScriptableObject.CHASE_RANGE;
         }
 
+        /*
+            Sets reference to EnemyController.
+            Parameters : 
+            - _enemyController : EnemyController reference.
+        */
         public void SetEnemyController(EnemyController _enemyController) {
             enemyController = _enemyController;
         }
 
+        /*
+            Returns reference to EnemyController.
+        */
         public EnemyController GetEnemyController() {
             return enemyController;
         }
